@@ -10,8 +10,8 @@
    the complex case of the multi-activity acquire class.
 
    The model is based on the concept of an overall operation consisting
-   of a series of small sub operations. Each sub operation has it's own
-   completion status and the overall operation has it's completion status.
+   of a series of small sub operations. Each sub operation has its own
+   completion status and the overall operation has its completion status.
    The units of the two are not mixed and are completely independent.
 
    The UI is expected to subclass this to provide the visuals to the user.
