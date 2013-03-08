@@ -663,6 +663,8 @@ bool DoCacheManipulationFromCommandLine(CommandLine &CmdL, CacheFile &Cache,
    return true;
 }
 									/*}}}*/
+
+#include "colors.h"
 // DoInstall - Install packages from the command line			/*{{{*/
 // ---------------------------------------------------------------------
 /* Install named packages */
@@ -698,7 +700,8 @@ bool DoInstall(CommandLine &CmdL)
 	 VersionsList += std::string(Cache[I].CandVersion) + "\n";
       }
       
-      ShowList(c1out,_("The following extra packages will be installed:"),List,VersionsList);
+      ShowList(c1out,_("The following extra packages will be installed:"),List,VersionsList,
+               install_color);
    }
 
    /* Print out a list of suggested and recommended packages */
