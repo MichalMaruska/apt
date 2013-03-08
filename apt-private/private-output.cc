@@ -294,10 +294,12 @@ void ListSingleVersion(pkgCacheFile &CacheFile, pkgRecords &records,	/*{{{*/
 }
 									/*}}}*/
 // ShowList - Show a list						/*{{{*/
+
+#include "colors.h"
 // ---------------------------------------------------------------------
 /* This prints out a string of space separated words with a title and 
    a two space indent line wraped to the current screen width. */
-bool ShowList(ostream &out,string Title,string List,string VersionsList)
+static bool ShowList(ostream &out,string Title,string List,string VersionsList, const char* pkgname_color = warn_color)
 {
    if (List.empty() == true)
       return true;
@@ -326,9 +328,13 @@ bool ShowList(ostream &out,string Title,string List,string VersionsList)
          End = List.find(' ',Start);
          VersionsEnd = VersionsList.find('\n', VersionsStart);
 
-         out << "   " << string(List,Start,End - Start) << " (" << 
-            string(VersionsList,VersionsStart,VersionsEnd - VersionsStart) << 
-            ")" << endl;
+         out << "   " << pkgname_color
+             << string(List,Start,End - Start)
+             << color_reset << " ("
+             << version_color
+             << string(VersionsList,VersionsStart,VersionsEnd - VersionsStart)
+             << color_reset
+             << ")" << endl;
 
 	 if (End == string::npos || End < Start)
 	    End = Start + ScreenWidth;
@@ -520,7 +526,7 @@ void ShowNew(ostream &out,CacheFile &Cache)
       }
    }
    
-   ShowList(out,_("The following NEW packages will be installed:"),List,VersionsList);
+   ShowList(out,_("The following NEW packages will be installed:"),List,VersionsList, install_color);
 }
 									/*}}}*/
 // ShowDel - Show packages to delete					/*{{{*/
@@ -546,7 +552,7 @@ void ShowDel(ostream &out,CacheFile &Cache)
       }
    }
    
-   ShowList(out,_("The following packages will be REMOVED:"),List,VersionsList);
+   ShowList(out,_("The following packages will be REMOVED:"),List,VersionsList, remove_color);
 }
 									/*}}}*/
 // ShowKept - Show kept packages					/*{{{*/
@@ -568,7 +574,7 @@ void ShowKept(ostream &out,CacheFile &Cache)
       List += I.FullName(true) + " ";
       VersionsList += string(Cache[I].CurVersion) + " => " + Cache[I].CandVersion + "\n";
    }
-   ShowList(out,_("The following packages have been kept back:"),List,VersionsList);
+   ShowList(out,_("The following packages have been kept back:"),List,VersionsList, blocked_color);
 }
 									/*}}}*/
 // ShowUpgraded - Show upgraded packages				/*{{{*/
@@ -589,7 +595,7 @@ void ShowUpgraded(ostream &out,CacheFile &Cache)
       List += I.FullName(true) + " ";
       VersionsList += string(Cache[I].CurVersion) + " => " + Cache[I].CandVersion + "\n";
    }
-   ShowList(out,_("The following packages will be upgraded:"),List,VersionsList);
+   ShowList(out,_("The following packages will be upgraded:"),List,VersionsList, install_color);
 }
 									/*}}}*/
 // ShowDowngraded - Show downgraded packages				/*{{{*/
@@ -610,7 +616,7 @@ bool ShowDowngraded(ostream &out,CacheFile &Cache)
       List += I.FullName(true) + " ";
       VersionsList += string(Cache[I].CurVersion) + " => " + Cache[I].CandVersion + "\n";
    }
-   return ShowList(out,_("The following packages will be DOWNGRADED:"),List,VersionsList);
+   return ShowList(out,_("The following packages will be DOWNGRADED:"),List,VersionsList, warn_color);
 }
 									/*}}}*/
 // ShowHold - Show held but changed packages				/*{{{*/
@@ -630,7 +636,7 @@ bool ShowHold(ostream &out,CacheFile &Cache)
       }
    }
 
-   return ShowList(out,_("The following held packages will be changed:"),List,VersionsList);
+   return ShowList(out,_("The following held packages will be changed:"),List,VersionsList, warn_color);
 }
 									/*}}}*/
 // ShowEssential - Show an essential package warning			/*{{{*/
@@ -694,7 +700,7 @@ bool ShowEssential(ostream &out,CacheFile &Cache)
    
    delete [] Added;
    return ShowList(out,_("WARNING: The following essential packages will be removed.\n"
-			 "This should NOT be done unless you know exactly what you are doing!"),List,VersionsList);
+			 "This should NOT be done unless you know exactly what you are doing!"),List,VersionsList, remove_color);
 }
 
 									/*}}}*/
