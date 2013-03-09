@@ -2,14 +2,14 @@
 // Description								/*{{{*/
 // $Id: apt-cache.cc,v 1.72 2004/04/30 04:34:03 mdz Exp $
 /* ######################################################################
-   
+
    apt-cache - Manages the cache files
-   
+
    apt-cache provides some functions fo manipulating the cache files.
-   It uses the command line interface common to all the APT tools. 
-   
+   It uses the command line interface common to all the APT tools.
+
    Returns 100 on failure, 0 on success.
-   
+
    ##################################################################### */
 									/*}}}*/
 // Include Files							/*{{{*/
@@ -115,13 +115,13 @@ static bool ShowUnMet(pkgCache::VerIterator const &V, bool const Important)
 	    // The group is OK
 	    if (OK == true)
 	       continue;
-	    
+
 	    // Oops, it failed..
 	    if (Header == false)
 	       ioprintf(cout,_("Package %s version %s has an unmet dep:\n"),
 			V.ParentPkg().FullName(true).c_str(),V.VerStr());
 	    Header = true;
-	    
+
 	    // Print out the dep type
 	    cout << " " << End.DepType() << ": ";
 
@@ -139,7 +139,7 @@ static bool ShowUnMet(pkgCache::VerIterator const &V, bool const Important)
 	       ++Start;
 	    }
 	    while (1);
-	    
+
 	    cout << endl;
 	 }
    return true;
@@ -198,9 +198,9 @@ static bool DumpPackage(CommandLine &CmdL)
 	 }
 	 cout << endl;
       }
-      
+
       cout << endl;
-      
+
       cout << "Reverse Depends: " << endl;
       for (pkgCache::DepIterator D = Pkg.RevDependsList(); D.end() != true; ++D)
       {
@@ -210,7 +210,7 @@ static bool DumpPackage(CommandLine &CmdL)
 	 else
 	    cout << endl;
       }
-      
+
       cout << "Dependencies: " << endl;
       for (pkgCache::VerIterator Cur = Pkg.VersionList(); Cur.end() != true; ++Cur)
       {
@@ -218,7 +218,7 @@ static bool DumpPackage(CommandLine &CmdL)
 	 for (pkgCache::DepIterator Dep = Cur.DependsList(); Dep.end() != true; ++Dep)
 	    cout << Dep.TargetPkg().FullName(true) << " (" << (int)Dep->CompareOp << " " << DeNull(Dep.TargetVer()) << ") ";
 	 cout << endl;
-      }      
+      }
 
       cout << "Provides: " << endl;
       for (pkgCache::VerIterator Cur = Pkg.VersionList(); Cur.end() != true; ++Cur)
@@ -319,7 +319,7 @@ static bool Stats(CommandLine &CmdL)
 	 NVirt++;
 	 continue;
       }
-      
+
       if (I->VersionList == 0 && I->ProvidesList != 0)
       {
 	 // Only 1 provides
@@ -454,7 +454,7 @@ static bool Dump(CommandLine &)
       return false;
 
    std::cout << "Using Versioning System: " << Cache->VS->Label << std::endl;
-   
+
    for (pkgCache::PkgIterator P = Cache->PkgBegin(); P.end() == false; ++P)
    {
       std::cout << "Package: " << P.FullName(true) << std::endl;
@@ -463,15 +463,15 @@ static bool Dump(CommandLine &)
 	 std::cout << " Version: " << V.VerStr() << std::endl;
 	 std::cout << "     File: " << V.FileList().File().FileName() << std::endl;
 	 for (pkgCache::DepIterator D = V.DependsList(); D.end() == false; ++D)
-	    std::cout << "  Depends: " << D.TargetPkg().FullName(true) << ' ' << 
+	    std::cout << "  Depends: " << D.TargetPkg().FullName(true) << ' ' <<
 	                     DeNull(D.TargetVer()) << std::endl;
 	 for (pkgCache::DescIterator D = V.DescriptionList(); D.end() == false; ++D)
 	 {
 	    std::cout << " Description Language: " << D.LanguageCode() << std::endl
 		 << "                 File: " << D.FileList().File().FileName() << std::endl
 		 << "                  MD5: " << D.md5() << std::endl;
-	 } 
-      }      
+	 }
+      }
    }
 
    for (pkgCache::PkgFileIterator F = Cache->FileBegin(); F.end() == false; ++F)
@@ -496,7 +496,7 @@ static bool Dump(CommandLine &)
 									/*}}}*/
 // DumpAvail - Print out the available list				/*{{{*/
 // ---------------------------------------------------------------------
-/* This is needed to make dpkg --merge happy.. I spent a bit of time to 
+/* This is needed to make dpkg --merge happy.. I spent a bit of time to
    make this run really fast, perhaps I went a little overboard.. */
 static bool DumpAvail(CommandLine &)
 {
@@ -508,13 +508,13 @@ static bool DumpAvail(CommandLine &)
    unsigned long Count = Cache->HeaderP->PackageCount+1;
    pkgCache::VerFile **VFList = new pkgCache::VerFile *[Count];
    memset(VFList,0,sizeof(*VFList)*Count);
-   
+
    // Map versions that we want to write out onto the VerList array.
    for (pkgCache::PkgIterator P = Cache->PkgBegin(); P.end() == false; ++P)
-   {    
+   {
       if (P->VersionList == 0)
 	 continue;
-      
+
       /* Find the proper version to use. If the policy says there are no
          possible selections we return the installed version, if available..
        	 This prevents dselect from making it obsolete. */
@@ -525,17 +525,17 @@ static bool DumpAvail(CommandLine &)
 	    continue;
 	 V = P.CurrentVer();
       }
-      
+
       pkgCache::VerFileIterator VF = V.FileList();
       for (; VF.end() == false ; ++VF)
 	 if ((VF.File()->Flags & pkgCache::Flag::NotSource) == 0)
 	    break;
-      
+
       /* Okay, here we have a bit of a problem.. The policy has selected the
          currently installed package - however it only exists in the
        	 status file.. We need to write out something or dselect will mark
          the package as obsolete! Thus we emit the status file entry, but
-         below we remove the status line to make it valid for the 
+         below we remove the status line to make it valid for the
          available file. However! We only do this if their do exist *any*
          non-source versions of the package - that way the dselect obsolete
          handling works OK. */
@@ -544,22 +544,22 @@ static bool DumpAvail(CommandLine &)
 	 for (pkgCache::VerIterator Cur = P.VersionList(); Cur.end() != true; ++Cur)
 	 {
 	    for (VF = Cur.FileList(); VF.end() == false; ++VF)
-	    {	 
+	    {
 	       if ((VF.File()->Flags & pkgCache::Flag::NotSource) == 0)
 	       {
 		  VF = V.FileList();
 		  break;
 	       }
 	    }
-	    
+
 	    if (VF.end() == false)
 	       break;
 	 }
       }
-      
+
       VFList[P->ID] = VF;
    }
-   
+
    LocalitySort(VFList,Count,sizeof(*VFList));
 
    std::vector<pkgTagSection::Tag> RW;
@@ -582,7 +582,7 @@ static bool DumpAvail(CommandLine &)
       FileFd PkgF(File.FileName(),FileFd::ReadOnly, FileFd::Extension);
       if (_error->PendingError() == true)
 	 break;
-      
+
       /* Write all of the records from this package file, since we
        	 already did locality sorting we can now just seek through the
        	 file in read order. We apply 1 more optimization here, since often
@@ -593,7 +593,7 @@ static bool DumpAvail(CommandLine &)
       {
 	 if ((*J)->File + Cache->PkgFileP != File)
 	    break;
-	 
+
 	 const pkgCache::VerFile &VF = **J;
 
 	 // Read the record and then write it out again.
@@ -604,7 +604,7 @@ static bool DumpAvail(CommandLine &)
 	       break;
 	    Jitter = 0;
 	 }
-	 
+
 	 if (PkgF.Read(Buffer,VF.Size + Jitter) == false)
 	    break;
 	 Buffer[VF.Size + Jitter] = '\n';
@@ -651,13 +651,13 @@ static bool XVcg(CommandLine &CmdL)
       return false;
 
    bool GivenOnly = _config->FindB("APT::Cache::GivenOnly",false);
-   
+
    /* Normal packages are boxes
       Pure Provides are triangles
       Mixed are diamonds
       rhomb are missing packages*/
    const char *Shapes[] = {"ellipse","triangle","box","rhomb"};
-   
+
    /* Initialize the list of packages to show.
       1 = To Show
       2 = To Show no recurse
@@ -669,7 +669,7 @@ static bool XVcg(CommandLine &CmdL)
    unsigned char *Show = new unsigned char[Cache->Head().PackageCount];
    unsigned char *Flags = new unsigned char[Cache->Head().PackageCount];
    unsigned char *ShapeMap = new unsigned char[Cache->Head().PackageCount];
-   
+
    // Show everything if no arguments given
    if (CmdL.FileList[1] == 0)
       for (unsigned long I = 0; I != Cache->Head().PackageCount; I++)
@@ -678,10 +678,10 @@ static bool XVcg(CommandLine &CmdL)
       for (unsigned long I = 0; I != Cache->Head().PackageCount; I++)
 	 Show[I] = None;
    memset(Flags,0,sizeof(*Flags)*Cache->Head().PackageCount);
-   
+
    // Map the shapes
    for (pkgCache::PkgIterator Pkg = Cache->PkgBegin(); Pkg.end() == false; ++Pkg)
-   {   
+   {
       if (Pkg->VersionList == 0)
       {
 	 // Missing
@@ -734,7 +734,7 @@ static bool XVcg(CommandLine &CmdL)
 	    continue;
 
 	 //printf ("node: { title: \"%s\" label: \"%s\" }\n", Pkg.Name(), Pkg.Name());
-	 
+
 	 // Colour as done
 	 if (Show[Pkg->ID] == ToShowNR || (Flags[Pkg->ID] & ForceNR) == ForceNR)
 	 {
@@ -743,7 +743,7 @@ static bool XVcg(CommandLine &CmdL)
 	       Show[Pkg->ID] = Done;
 	    else
 	       Show[Pkg->ID] = DoneNR;
-	 }	 
+	 }
 	 else
 	    Show[Pkg->ID] = Done;
 	 Act = true;
@@ -751,7 +751,7 @@ static bool XVcg(CommandLine &CmdL)
 	 // No deps to map out
 	 if (Pkg->VersionList == 0 || Show[Pkg->ID] == DoneNR)
 	    continue;
-	 
+
 	 pkgCache::VerIterator Ver = Pkg.VersionList();
 	 for (pkgCache::DepIterator D = Ver.DependsList(); D.end() == false; ++D)
 	 {
@@ -765,21 +765,21 @@ static bool XVcg(CommandLine &CmdL)
 	       if (Cache->VS->CheckDep(I.VerStr(),D->CompareOp,D.TargetVer()) == true)
 		  Hit = true;
 	    }
-	    
+
 	    // Follow all provides
-	    for (pkgCache::PrvIterator I = DPkg.ProvidesList(); 
+	    for (pkgCache::PrvIterator I = DPkg.ProvidesList();
 		      I.end() == false && Hit == false; ++I)
 	    {
 	       if (Cache->VS->CheckDep(I.ProvideVersion(),D->CompareOp,D.TargetVer()) == false)
 		  Hit = true;
 	    }
-	    
 
-	    // Only graph critical deps	    
+
+	    // Only graph critical deps
 	    if (D.IsCritical() == true)
 	    {
 	       printf ("edge: { sourcename: \"%s\" targetname: \"%s\" class: 2 ",Pkg.FullName(true).c_str(), D.TargetPkg().FullName(true).c_str() );
-	       
+
 	       // Colour the node for recursion
 	       if (Show[D.TargetPkg()->ID] <= DoneNR)
 	       {
@@ -787,10 +787,10 @@ static bool XVcg(CommandLine &CmdL)
 		     then show the relation but do not recurse */
 		  if (Hit == false && D.IsNegative() == true)
 		  {
-		     if (Show[D.TargetPkg()->ID] == None && 
+		     if (Show[D.TargetPkg()->ID] == None &&
 			 Show[D.TargetPkg()->ID] != ToShow)
 			Show[D.TargetPkg()->ID] = ToShowNR;
-		  }		  
+		  }
 		  else
 		  {
 		     if (GivenOnly == true && Show[D.TargetPkg()->ID] != ToShow)
@@ -799,7 +799,7 @@ static bool XVcg(CommandLine &CmdL)
 			Show[D.TargetPkg()->ID] = ToShow;
 		  }
 	       }
-	       
+
 	       // Edge colour
 	       switch(D->Type)
 	       {
@@ -812,20 +812,20 @@ static bool XVcg(CommandLine &CmdL)
 		  case pkgCache::Dep::Obsoletes:
 		    printf("label: \"obsoletes\" color: lightgreen }\n");
 		    break;
-		  
+
 		  case pkgCache::Dep::PreDepends:
 		    printf("label: \"predepends\" color: blue }\n");
 		    break;
-		  
+
 		  default:
 		    printf("}\n");
 		  break;
-	       }	       
-	    }	    
+	       }
+	    }
 	 }
       }
-   }   
-   
+   }
+
    /* Draw the box colours after the fact since we can not tell what colour
       they should be until everything is finished drawing */
    for (pkgCache::PkgIterator Pkg = Cache->PkgBegin(); Pkg.end() == false; ++Pkg)
@@ -839,7 +839,7 @@ static bool XVcg(CommandLine &CmdL)
       else
 	printf("node: { title: \"%s\" label: \"%s\" shape: %s }\n", Pkg.FullName(true).c_str(), Pkg.FullName(true).c_str(),
 		Shapes[ShapeMap[Pkg->ID]]);
-      
+
    }
 
    delete[] Show;
@@ -853,7 +853,7 @@ static bool XVcg(CommandLine &CmdL)
 // Dotty - Generate a graph for Dotty					/*{{{*/
 // ---------------------------------------------------------------------
 /* Dotty is the graphvis program for generating graphs. It is a fairly
-   simple queuing algorithm that just writes dependencies and nodes. 
+   simple queuing algorithm that just writes dependencies and nodes.
    http://www.research.att.com/sw/tools/graphviz/ */
 static bool Dotty(CommandLine &CmdL)
 {
@@ -863,13 +863,13 @@ static bool Dotty(CommandLine &CmdL)
       return false;
 
    bool GivenOnly = _config->FindB("APT::Cache::GivenOnly",false);
-   
+
    /* Normal packages are boxes
       Pure Provides are triangles
       Mixed are diamonds
       Hexagons are missing packages*/
    const char *Shapes[] = {"hexagon","triangle","box","diamond"};
-   
+
    /* Initialize the list of packages to show.
       1 = To Show
       2 = To Show no recurse
@@ -881,7 +881,7 @@ static bool Dotty(CommandLine &CmdL)
    unsigned char *Show = new unsigned char[Cache->Head().PackageCount];
    unsigned char *Flags = new unsigned char[Cache->Head().PackageCount];
    unsigned char *ShapeMap = new unsigned char[Cache->Head().PackageCount];
-   
+
    // Show everything if no arguments given
    if (CmdL.FileList[1] == 0)
       for (unsigned long I = 0; I != Cache->Head().PackageCount; I++)
@@ -890,10 +890,10 @@ static bool Dotty(CommandLine &CmdL)
       for (unsigned long I = 0; I != Cache->Head().PackageCount; I++)
 	 Show[I] = None;
    memset(Flags,0,sizeof(*Flags)*Cache->Head().PackageCount);
-   
+
    // Map the shapes
    for (pkgCache::PkgIterator Pkg = Cache->PkgBegin(); Pkg.end() == false; ++Pkg)
-   {   
+   {
       if (Pkg->VersionList == 0)
       {
 	 // Missing
@@ -934,7 +934,7 @@ static bool Dotty(CommandLine &CmdL)
    printf("digraph packages {\n");
    printf("concentrate=true;\n");
    printf("size=\"30,40\";\n");
-   
+
    bool Act = true;
    while (Act == true)
    {
@@ -944,7 +944,7 @@ static bool Dotty(CommandLine &CmdL)
 	 // See we need to show this package
 	 if (Show[Pkg->ID] == None || Show[Pkg->ID] >= DoneNR)
 	    continue;
-	 
+
 	 // Colour as done
 	 if (Show[Pkg->ID] == ToShowNR || (Flags[Pkg->ID] & ForceNR) == ForceNR)
 	 {
@@ -953,7 +953,7 @@ static bool Dotty(CommandLine &CmdL)
 	       Show[Pkg->ID] = Done;
 	    else
 	       Show[Pkg->ID] = DoneNR;
-	 }	 
+	 }
 	 else
 	    Show[Pkg->ID] = Done;
 	 Act = true;
@@ -961,7 +961,7 @@ static bool Dotty(CommandLine &CmdL)
 	 // No deps to map out
 	 if (Pkg->VersionList == 0 || Show[Pkg->ID] == DoneNR)
 	    continue;
-	 
+
 	 pkgCache::VerIterator Ver = Pkg.VersionList();
 	 for (pkgCache::DepIterator D = Ver.DependsList(); D.end() == false; ++D)
 	 {
@@ -975,20 +975,20 @@ static bool Dotty(CommandLine &CmdL)
 	       if (Cache->VS->CheckDep(I.VerStr(),D->CompareOp,D.TargetVer()) == true)
 		  Hit = true;
 	    }
-	    
+
 	    // Follow all provides
-	    for (pkgCache::PrvIterator I = DPkg.ProvidesList(); 
+	    for (pkgCache::PrvIterator I = DPkg.ProvidesList();
 		      I.end() == false && Hit == false; ++I)
 	    {
 	       if (Cache->VS->CheckDep(I.ProvideVersion(),D->CompareOp,D.TargetVer()) == false)
 		  Hit = true;
 	    }
-	    
-	    // Only graph critical deps	    
+
+	    // Only graph critical deps
 	    if (D.IsCritical() == true)
 	    {
 	       printf("\"%s\" -> \"%s\"",Pkg.FullName(true).c_str(),D.TargetPkg().FullName(true).c_str());
-	       
+
 	       // Colour the node for recursion
 	       if (Show[D.TargetPkg()->ID] <= DoneNR)
 	       {
@@ -996,10 +996,10 @@ static bool Dotty(CommandLine &CmdL)
 		     then show the relation but do not recurse */
 		  if (Hit == false && D.IsNegative() == true)
 		  {
-		     if (Show[D.TargetPkg()->ID] == None && 
+		     if (Show[D.TargetPkg()->ID] == None &&
 			 Show[D.TargetPkg()->ID] != ToShow)
 			Show[D.TargetPkg()->ID] = ToShowNR;
-		  }		  
+		  }
 		  else
 		  {
 		     if (GivenOnly == true && Show[D.TargetPkg()->ID] != ToShow)
@@ -1008,7 +1008,7 @@ static bool Dotty(CommandLine &CmdL)
 			Show[D.TargetPkg()->ID] = ToShow;
 		  }
 	       }
-	       
+
 	       // Edge colour
 	       switch(D->Type)
 	       {
@@ -1017,27 +1017,27 @@ static bool Dotty(CommandLine &CmdL)
 		  case pkgCache::Dep::DpkgBreaks:
 		  printf("[color=springgreen];\n");
 		  break;
-		  
+
 		  case pkgCache::Dep::PreDepends:
 		  printf("[color=blue];\n");
 		  break;
-		  
+
 		  default:
 		  printf(";\n");
 		  break;
-	       }	       
-	    }	    
+	       }
+	    }
 	 }
       }
-   }   
-   
+   }
+
    /* Draw the box colours after the fact since we can not tell what colour
       they should be until everything is finished drawing */
    for (pkgCache::PkgIterator Pkg = Cache->PkgBegin(); Pkg.end() == false; ++Pkg)
    {
       if (Show[Pkg->ID] < DoneNR)
 	 continue;
-      
+
       // Orange box for early recursion stoppage
       if (Show[Pkg->ID] == DoneNR)
 	 printf("\"%s\" [color=orange,shape=%s];\n",Pkg.FullName(true).c_str(),
@@ -1046,7 +1046,7 @@ static bool Dotty(CommandLine &CmdL)
 	 printf("\"%s\" [shape=%s];\n",Pkg.FullName(true).c_str(),
 		Shapes[ShapeMap[Pkg->ID]]);
    }
-   
+
    printf("}\n");
    delete[] Show;
    delete[] Flags;
@@ -1065,13 +1065,13 @@ static bool ShowAuto(CommandLine &)
 
    std::vector<string> packages;
    packages.reserve(Cache->HeaderP->PackageCount / 3);
-   
+
    for (pkgCache::PkgIterator P = Cache->PkgBegin(); P.end() == false; ++P)
       if ((*DepCache)[P].Flags & pkgCache::Flag::Auto)
          packages.push_back(P.Name());
 
     std::sort(packages.begin(), packages.end());
-    
+
     for (vector<string>::iterator I = packages.begin(); I != packages.end(); ++I)
             cout << *I << "\n";
 
@@ -1104,7 +1104,7 @@ static bool ShowPkgNames(CommandLine &CmdL)
 
       return true;
    }
-   
+
    // Show all pkgs
    for (;I.end() != true; ++I)
    {
@@ -1114,7 +1114,7 @@ static bool ShowPkgNames(CommandLine &CmdL)
 	 continue;
       cout << I.Name() << endl;
    }
-   
+
    return true;
 }
 									/*}}}*/
