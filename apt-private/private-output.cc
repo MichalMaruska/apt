@@ -95,7 +95,7 @@ bool InitOutput(std::basic_streambuf<char> * const out)			/*{{{*/
       // Colors
       _config->CndSet("APT::Color::Highlight", "\x1B[32m");
       _config->CndSet("APT::Color::Neutral", "\x1B[0m");
-      
+
       _config->CndSet("APT::Color::Red", "\x1B[31m");
       _config->CndSet("APT::Color::Green", "\x1B[32m");
       _config->CndSet("APT::Color::Yellow", "\x1B[33m");
@@ -641,14 +641,14 @@ void Stats(ostream &out,pkgDepCache &Dep)
 	    if (Dep[I].Downgrade() == true)
 	       Downgrade++;
       }
-      
+
       if (Dep[I].Delete() == false && (Dep[I].iFlags & pkgDepCache::ReInstall) == pkgDepCache::ReInstall)
 	 ReInstall++;
-   }   
+   }
 
    ioprintf(out,_("%lu upgraded, %lu newly installed, "),
 	    Upgrade,Install);
-   
+
    if (ReInstall != 0)
       ioprintf(out,_("%lu reinstalled, "),ReInstall);
    if (Downgrade != 0)
@@ -656,7 +656,7 @@ void Stats(ostream &out,pkgDepCache &Dep)
 
    ioprintf(out,_("%lu to remove and %lu not upgraded.\n"),
 	    Dep.DelCount(),Dep.KeepCount());
-   
+
    if (Dep.BadCount() != 0)
       ioprintf(out,_("%lu not fully installed or removed.\n"),
 	       Dep.BadCount());
