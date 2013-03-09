@@ -87,7 +87,7 @@ pkgPolicy::pkgPolicy(pkgCache *Owner) : Pins(nullptr), VerPins(nullptr),
 // ---------------------------------------------------------------------
 /* */
 bool pkgPolicy::InitDefaults()
-{   
+{
    // Initialize the priorities based on the status of the package file
    for (pkgCache::PkgFileIterator I = Cache->FileBegin(); I != Cache->FileEnd(); ++I)
    {
@@ -344,7 +344,7 @@ bool ReadPinFile(pkgPolicy &Plcy,string File)
 
    if (RealFileExists(File) == false)
       return true;
-   
+
    FileFd Fd(File,FileFd::ReadOnly);
    pkgTagFile TF(&Fd, pkgTagFile::SUPPORT_COMMENTS);
    if (Fd.IsOpen() == false || Fd.Failed())
@@ -362,12 +362,12 @@ bool ReadPinFile(pkgPolicy &Plcy,string File)
 	 return _error->Error(_("Invalid record in the preferences file %s, no Package header"), File.c_str());
       if (Name == "*")
 	 Name = string();
-      
+
       const char *Start;
       const char *End;
       if (Tags.Find("Pin",Start,End) == false)
 	 continue;
-	 
+
       const char *Word = Start;
       for (; Word != End && isspace(*Word) == 0; Word++);
 
