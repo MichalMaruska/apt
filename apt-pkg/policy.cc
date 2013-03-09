@@ -91,7 +91,7 @@ pkgPolicy::pkgPolicy(pkgCache *Owner) : Pins(0), PFPriority(0), Cache(Owner)
 // ---------------------------------------------------------------------
 /* */
 bool pkgPolicy::InitDefaults()
-{   
+{
    // Initialize the priorities based on the status of the package file
    for (pkgCache::PkgFileIterator I = Cache->FileBegin(); I != Cache->FileEnd(); ++I)
    {
@@ -168,8 +168,8 @@ pkgCache::VerIterator pkgPolicy::GetCandidateVer(pkgCache::PkgIterator const &Pk
       not-automatic sources, except in a single shot not-installed mode.
       The second pseduo-status file is at prio 1000, above which will permit
       the user to force-downgrade things.
-      
-      The user pin is subject to the same priority rules as default 
+
+      The user pin is subject to the same priority rules as default
       selections. Thus there are two ways to create a pin - a pin that
       tracks the default when the default is taken away, and a permanent
       pin that stays at that setting.
@@ -404,7 +404,7 @@ bool ReadPinFile(pkgPolicy &Plcy,string File)
 
    if (RealFileExists(File) == false)
       return true;
-   
+
    FileFd Fd(File,FileFd::ReadOnly);
    pkgTagFile TF(&Fd);
    if (_error->PendingError() == true)
@@ -422,12 +422,12 @@ bool ReadPinFile(pkgPolicy &Plcy,string File)
 	 return _error->Error(_("Invalid record in the preferences file %s, no Package header"), File.c_str());
       if (Name == "*")
 	 Name = string();
-      
+
       const char *Start;
       const char *End;
       if (Tags.Find("Pin",Start,End) == false)
 	 continue;
-	 
+
       const char *Word = Start;
       for (; Word != End && isspace(*Word) == 0; Word++);
 
