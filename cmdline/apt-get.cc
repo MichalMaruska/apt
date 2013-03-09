@@ -1,13 +1,13 @@
 // -*- mode: cpp; mode: fold -*-
 // Description								/*{{{*/
 /* ######################################################################
-   
+
    apt-get - Cover for dpkg
-   
+
    This is an allout cover for dpkg implementing a safer front end. It is
    based largely on libapt-pkg.
 
-   The syntax is different, 
+   The syntax is different,
       apt-get [opt] command [things]
    Where command is:
       update - Resyncronize the package files from their sources
@@ -145,7 +145,7 @@ static bool DoDSelectUpgrade(CommandLine &)
    CacheFile Cache;
    if (Cache.OpenForInstall() == false || Cache.CheckDeps() == false)
       return false;
-   
+
    pkgDepCache::ActionGroup group(Cache);
 
    // Install everything with the install flag set
@@ -167,11 +167,11 @@ static bool DoDSelectUpgrade(CommandLine &)
       if (I->SelectedState == pkgCache::State::Install)
 	 Cache->MarkInstall(I,true);
    }
-   
+
    // Apply erasures now, they override everything else.
    for (I = Cache->PkgBegin();I.end() != true; ++I)
    {
-      // Remove packages 
+      // Remove packages
       if (I->SelectedState == pkgCache::State::DeInstall ||
 	  I->SelectedState == pkgCache::State::Purge)
 	 Cache->MarkDelete(I,I->SelectedState == pkgCache::State::Purge);
@@ -180,7 +180,7 @@ static bool DoDSelectUpgrade(CommandLine &)
    /* Resolve any problems that dselect created, allupgrade cannot handle
       such things. We do so quite aggressively too.. */
    if (Cache->BrokenCount() != 0)
-   {      
+   {
       pkgProblemResolver Fix(Cache);
 
       // Hold back held packages.
@@ -195,7 +195,7 @@ static bool DoDSelectUpgrade(CommandLine &)
 	    }
 	 }
       }
-   
+
       if (Fix.Resolve() == false)
       {
 	 ShowBroken(c1out,Cache,false);
@@ -209,7 +209,7 @@ static bool DoDSelectUpgrade(CommandLine &)
       ShowBroken(c1out,Cache,false);
       return _error->Error(_("Internal error, problem resolver broke stuff"));
    }
-   
+
    return InstallPackages(Cache,false);
 }
 									/*}}}*/
@@ -222,7 +222,7 @@ static bool DoCheck(CommandLine &)
    CacheFile Cache;
    Cache.Open();
    Cache.CheckDeps();
-   
+
    return true;
 }
 									/*}}}*/
@@ -358,7 +358,7 @@ static bool ShowHelp(CommandLine &)					/*{{{*/
 	    cout << ' ';
 	 cout << "Ver: " << VS->Label << endl;
 
-	 /* Print out all the packaging systems that will work with 
+	 /* Print out all the packaging systems that will work with
 	    this VS */
 	 for (unsigned J = 0; J != pkgSystem::GlobalListLen; J++)
 	 {
