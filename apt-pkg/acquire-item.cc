@@ -6,7 +6,7 @@
    Acquire Item - Item to acquire
 
    Each item can download to exactly one file at a time. This means you
-   cannot create an item that fetches two uri's to two files at the same 
+   cannot create an item that fetches two uri's to two files at the same
    time. The pkgAcqIndex class creates a second class upon instantiation
    to fetch the other index files because of this.
 
@@ -2592,6 +2592,7 @@ pkgAcqIndexDiffs::pkgAcqIndexDiffs(pkgAcquire * const Owner,
       QueueNextDiff();
    }
 }
+
 									/*}}}*/
 void pkgAcqIndexDiffs::Failed(string const &Message,pkgAcquire::MethodConfig const * const Cnf)/*{{{*/
 {
@@ -2617,7 +2618,7 @@ void pkgAcqIndexDiffs::Failed(string const &Message,pkgAcquire::MethodConfig con
 void pkgAcqIndexDiffs::Finish(bool allDone)
 {
    if(Debug)
-      std::clog << "pkgAcqIndexDiffs::Finish(): " 
+      std::clog << "pkgAcqIndexDiffs::Finish(): "
                 << allDone << " "
                 << Desc.URI << std::endl;
 
@@ -2646,6 +2647,7 @@ void pkgAcqIndexDiffs::Finish(bool allDone)
    Dequeue();
    return;
 }
+
 									/*}}}*/
 bool pkgAcqIndexDiffs::QueueNextDiff()					/*{{{*/
 {
@@ -3216,7 +3218,7 @@ pkgAcqArchive::pkgAcqArchive(pkgAcquire * const Owner,pkgSourceList * const Sour
 		    Version.ParentPkg().FullName().c_str());
       return;
    }
-   
+
    /* We need to find a filename to determine the extension. We make the
       assumption here that all the available sources for this version share
       the same extension.. */
@@ -3227,19 +3229,19 @@ pkgAcqArchive::pkgAcqArchive(pkgAcquire * const Owner,pkgSourceList * const Sour
 	 continue;
       break;
    }
-   
+
    // Does not really matter here.. we are going to fail out below
    if (Vf.end() != true)
-   {     
+   {
       // If this fails to get a file name we will bomb out below.
       pkgRecords::Parser &Parse = Recs->Lookup(Vf);
       if (_error->PendingError() == true)
 	 return;
-            
+
       // Generate the final file name as: package_version_arch.foo
       StoreFilename = QuoteString(Version.ParentPkg().Name(),"_:") + '_' +
 	              QuoteString(Version.VerStr(),"_:") + '_' +
-     	              QuoteString(Version.Arch(),"_:.") + 
+     	              QuoteString(Version.Arch(),"_:.") +
 	              "." + flExtension(Parse.FileName());
    }
 
@@ -3302,7 +3304,7 @@ bool pkgAcqArchive::QueueNext()
 
       // only try to get a trusted package from another source if that source
       // is also trusted
-      if(Trusted && !Index->IsTrusted()) 
+      if(Trusted && !Index->IsTrusted())
 	 continue;
 
       // Grab the text package record
@@ -3338,7 +3340,7 @@ bool pkgAcqArchive::QueueNext()
 	    StoreFilename = DestFile = FinalFile;
 	    return true;
 	 }
-	 
+
 	 /* Hmm, we have a file and its size does not match, this means it is
 	    an old style mismatched arch */
 	 RemoveFile("pkgAcqArchive::QueueNext", FinalFile);
@@ -3357,14 +3359,13 @@ bool pkgAcqArchive::QueueNext()
 	    StoreFilename = DestFile = FinalFile;
 	    return true;
 	 }
-	 
 	 /* Hmm, we have a file and its size does not match, this shouldn't
 	    happen.. */
 	 RemoveFile("pkgAcqArchive::QueueNext", FinalFile);
       }
 
       DestFile = _config->FindDir("Dir::Cache::Archives") + "partial/" + flNotDir(StoreFilename);
-      
+
       // Check the destination file
       if (stat(DestFile.c_str(),&Buf) == 0)
       {
@@ -3393,7 +3394,7 @@ bool pkgAcqArchive::QueueNext()
       return true;
    }
    return false;
-}   
+}
 									/*}}}*/
 // AcqArchive::Done - Finished fetching					/*{{{*/
 // ---------------------------------------------------------------------
