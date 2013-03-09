@@ -78,7 +78,7 @@ bool InitOutput()							/*{{{*/
       // Colors
       _config->CndSet("APT::Color::Highlight", "\x1B[32m");
       _config->CndSet("APT::Color::Neutral", "\x1B[0m");
-      
+
       _config->CndSet("APT::Color::Red", "\x1B[31m");
       _config->CndSet("APT::Color::Green", "\x1B[32m");
       _config->CndSet("APT::Color::Yellow", "\x1B[33m");
@@ -297,7 +297,7 @@ void ListSingleVersion(pkgCacheFile &CacheFile, pkgRecords &records,	/*{{{*/
 
 #include "colors.h"
 // ---------------------------------------------------------------------
-/* This prints out a string of space separated words with a title and 
+/* This prints out a string of space separated words with a title and
    a two space indent line wraped to the current screen width. */
 static bool ShowList(ostream &out,string Title,string List,string VersionsList, const char* pkgname_color = warn_color)
 {
@@ -314,7 +314,7 @@ static bool ShowList(ostream &out,string Title,string List,string VersionsList, 
 
    // Acount for the leading space
    int ScreenWidth = ::ScreenWidth - 3;
-      
+
    out << Title << endl;
    string::size_type Start = 0;
    string::size_type VersionsStart = 0;
@@ -324,7 +324,7 @@ static bool ShowList(ostream &out,string Title,string List,string VersionsList, 
          VersionsList.size() > 0) {
          string::size_type End;
          string::size_type VersionsEnd;
-         
+
          End = List.find(' ',Start);
          VersionsEnd = VersionsList.find('\n', VersionsStart);
 
@@ -354,7 +354,7 @@ static bool ShowList(ostream &out,string Title,string List,string VersionsList, 
          out << "  " << string(List,Start,End - Start) << endl;
          Start = End + 1;
       }
-   }   
+   }
 
    return false;
 }
@@ -362,14 +362,14 @@ static bool ShowList(ostream &out,string Title,string List,string VersionsList, 
 // ShowBroken - Debugging aide						/*{{{*/
 // ---------------------------------------------------------------------
 /* This prints out the names of all the packages that are broken along
-   with the name of each each broken dependency and a quite version 
+   with the name of each each broken dependency and a quite version
    description.
-   
+
    The output looks like:
  The following packages have unmet dependencies:
      exim: Depends: libc6 (>= 2.1.94) but 2.1.3-10 is to be installed
            Depends: libldap2 (>= 2.0.2-2) but it is not going to be installed
-           Depends: libsasl7 but it is not going to be installed   
+           Depends: libsasl7 but it is not going to be installed
  */
 static void ShowBrokenPackage(ostream &out, pkgCacheFile * const Cache, pkgCache::PkgIterator const &Pkg, bool const Now)
 {
@@ -525,7 +525,7 @@ void ShowNew(ostream &out,CacheFile &Cache)
          VersionsList += string(Cache[I].CandVersion) + "\n";
       }
    }
-   
+
    ShowList(out,_("The following NEW packages will be installed:"),List,VersionsList, install_color);
 }
 									/*}}}*/
@@ -547,11 +547,11 @@ void ShowDel(ostream &out,CacheFile &Cache)
 	    List += I.FullName(true) + "* ";
 	 else
 	    List += I.FullName(true) + " ";
-     
+
      VersionsList += string(Cache[I].CandVersion)+ "\n";
       }
    }
-   
+
    ShowList(out,_("The following packages will be REMOVED:"),List,VersionsList, remove_color);
 }
 									/*}}}*/
@@ -563,14 +563,14 @@ void ShowKept(ostream &out,CacheFile &Cache)
    string List;
    string VersionsList;
    for (unsigned J = 0; J < Cache->Head().PackageCount; J++)
-   {	 
+   {
       pkgCache::PkgIterator I(Cache,Cache.List[J]);
-      
+
       // Not interesting
       if (Cache[I].Upgrade() == true || Cache[I].Upgradable() == false ||
 	  I->CurrentVer == 0 || Cache[I].Delete() == true)
 	 continue;
-      
+
       List += I.FullName(true) + " ";
       VersionsList += string(Cache[I].CurVersion) + " => " + Cache[I].CandVersion + "\n";
    }
@@ -587,7 +587,7 @@ void ShowUpgraded(ostream &out,CacheFile &Cache)
    for (unsigned J = 0; J < Cache->Head().PackageCount; J++)
    {
       pkgCache::PkgIterator I(Cache,Cache.List[J]);
-      
+
       // Not interesting
       if (Cache[I].Upgrade() == false || Cache[I].NewInstall() == true)
 	 continue;
@@ -608,7 +608,7 @@ bool ShowDowngraded(ostream &out,CacheFile &Cache)
    for (unsigned J = 0; J < Cache->Head().PackageCount; J++)
    {
       pkgCache::PkgIterator I(Cache,Cache.List[J]);
-      
+
       // Not interesting
       if (Cache[I].Downgrade() == false || Cache[I].NewInstall() == true)
 	 continue;
@@ -642,7 +642,7 @@ bool ShowHold(ostream &out,CacheFile &Cache)
 // ShowEssential - Show an essential package warning			/*{{{*/
 // ---------------------------------------------------------------------
 /* This prints out a warning message that is not to be ignored. It shows
-   all essential packages and their dependents that are to be removed. 
+   all essential packages and their dependents that are to be removed.
    It is insanely risky to remove the dependents of an essential package! */
 bool ShowEssential(ostream &out,CacheFile &Cache)
 {
@@ -651,14 +651,14 @@ bool ShowEssential(ostream &out,CacheFile &Cache)
    bool *Added = new bool[Cache->Head().PackageCount];
    for (unsigned int I = 0; I != Cache->Head().PackageCount; I++)
       Added[I] = false;
-   
+
    for (unsigned J = 0; J < Cache->Head().PackageCount; J++)
    {
       pkgCache::PkgIterator I(Cache,Cache.List[J]);
       if ((I->Flags & pkgCache::Flag::Essential) != pkgCache::Flag::Essential &&
 	  (I->Flags & pkgCache::Flag::Important) != pkgCache::Flag::Important)
 	 continue;
-      
+
       // The essential package is being removed
       if (Cache[I].Delete() == true)
       {
@@ -682,22 +682,22 @@ bool ShowEssential(ostream &out,CacheFile &Cache)
 	 if (D->Type != pkgCache::Dep::PreDepends &&
 	     D->Type != pkgCache::Dep::Depends)
 	    continue;
-	 
+
 	 pkgCache::PkgIterator P = D.SmartTargetPkg();
 	 if (Cache[P].Delete() == true)
 	 {
 	    if (Added[P->ID] == true)
 	       continue;
 	    Added[P->ID] = true;
-	    
+
 	    char S[300];
 	    snprintf(S,sizeof(S),_("%s (due to %s) "),P.FullName(true).c_str(),I.FullName(true).c_str());
 	    List += S;
         //VersionsList += "\n"; ???
-	 }	 
-      }      
+	 }
+      }
    }
-   
+
    delete [] Added;
    return ShowList(out,_("WARNING: The following essential packages will be removed.\n"
 			 "This should NOT be done unless you know exactly what you are doing!"),List,VersionsList, remove_color);
@@ -725,14 +725,14 @@ void Stats(ostream &out,pkgDepCache &Dep)
 	    if (Dep[I].Downgrade() == true)
 	       Downgrade++;
       }
-      
+
       if (Dep[I].Delete() == false && (Dep[I].iFlags & pkgDepCache::ReInstall) == pkgDepCache::ReInstall)
 	 ReInstall++;
-   }   
+   }
 
    ioprintf(out,_("%lu upgraded, %lu newly installed, "),
 	    Upgrade,Install);
-   
+
    if (ReInstall != 0)
       ioprintf(out,_("%lu reinstalled, "),ReInstall);
    if (Downgrade != 0)
@@ -740,7 +740,7 @@ void Stats(ostream &out,pkgDepCache &Dep)
 
    ioprintf(out,_("%lu to remove and %lu not upgraded.\n"),
 	    Dep.DelCount(),Dep.KeepCount());
-   
+
    if (Dep.BadCount() != 0)
       ioprintf(out,_("%lu not fully installed or removed.\n"),
 	       Dep.BadCount());
@@ -807,11 +807,11 @@ bool YnPrompt(bool Default)
                  REG_EXTENDED|REG_ICASE|REG_NOSUB);
 
    if (Res != 0) {
-      char Error[300];        
+      char Error[300];
       regerror(Res,&Pattern,Error,sizeof(Error));
       return _error->Error(_("Regex compilation error - %s"),Error);
    }
-   
+
    Res = regexec(&Pattern, response, 0, NULL, 0);
    if (Res == 0)
       return true;
