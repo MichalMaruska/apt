@@ -80,7 +80,7 @@ bool InitOutput(std::basic_streambuf<char> * const out)			/*{{{*/
       // Colors
       _config->CndSet("APT::Color::Highlight", "\x1B[32m");
       _config->CndSet("APT::Color::Neutral", "\x1B[0m");
-      
+
       _config->CndSet("APT::Color::Red", "\x1B[31m");
       _config->CndSet("APT::Color::Green", "\x1B[32m");
       _config->CndSet("APT::Color::Yellow", "\x1B[33m");
@@ -626,14 +626,14 @@ void Stats(ostream &out,pkgDepCache &Dep)
 	    if (Dep[I].Downgrade() == true)
 	       Downgrade++;
       }
-      
+
       if (Dep[I].Delete() == false && (Dep[I].iFlags & pkgDepCache::ReInstall) == pkgDepCache::ReInstall)
 	 ReInstall++;
-   }   
+   }
 
    ioprintf(out,_("%lu upgraded, %lu newly installed, "),
 	    Upgrade,Install);
-   
+
    if (ReInstall != 0)
       ioprintf(out,_("%lu reinstalled, "),ReInstall);
    if (Downgrade != 0)
@@ -641,7 +641,7 @@ void Stats(ostream &out,pkgDepCache &Dep)
 
    ioprintf(out,_("%lu to remove and %lu not upgraded.\n"),
 	    Dep.DelCount(),Dep.KeepCount());
-   
+
    if (Dep.BadCount() != 0)
       ioprintf(out,_("%lu not fully installed or removed.\n"),
 	       Dep.BadCount());
@@ -721,11 +721,11 @@ bool YnPrompt(char const * const Question, bool Default)
                  REG_EXTENDED|REG_ICASE|REG_NOSUB);
 
    if (Res != 0) {
-      char Error[300];        
+      char Error[300];
       regerror(Res,&Pattern,Error,sizeof(Error));
       return _error->Error(_("Regex compilation error - %s"),Error);
    }
-   
+
    Res = regexec(&Pattern, response, 0, NULL, 0);
    if (Res == 0)
       return true;
