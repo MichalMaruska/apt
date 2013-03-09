@@ -4,12 +4,12 @@
 /* ######################################################################
 
    Package Version Policy implementation
-   
+
    This is just a really simple wrapper around pkgVersionMatch with
    some added goodies to manage the list of things..
-   
+
    Priority Table:
-   
+
    1000 -> inf = Downgradeable priorities
    1000        = The 'no downgrade' pseduo-status file
    100 -> 1000 = Standard priorities
@@ -18,8 +18,8 @@
    500         = Default package files
    100         = The status file and ButAutomaticUpgrades sources
    0 -> 100    = NotAutomatic sources like experimental
-   -inf -> 0   = Never selected   
-   
+   -inf -> 0   = Never selected
+
    ##################################################################### */
 									/*}}}*/
 // Include Files							/*{{{*/
@@ -91,7 +91,7 @@ pkgPolicy::pkgPolicy(pkgCache *Owner) : Pins(0), PFPriority(0), Cache(Owner)
 // ---------------------------------------------------------------------
 /* */
 bool pkgPolicy::InitDefaults()
-{   
+{
    // Initialize the priorities based on the status of the package file
    for (pkgCache::PkgFileIterator I = Cache->FileBegin(); I != Cache->FileEnd(); ++I)
    {
@@ -119,25 +119,25 @@ bool pkgPolicy::InitDefaults()
 	 {
 	    if (I->Priority != 0 && I->Priority > 0)
 	       Cur = I->Priority;
-	    
+
 	    if (I->Priority < 0)
 	       PFPriority[F->ID] =  I->Priority;
 	    else
 	       PFPriority[F->ID] = Cur;
-	    
+
 	    if (PFPriority[F->ID] > 1000)
 	       StatusOverride = true;
-	    
+
 	    Fixed[F->ID] = true;
-	 }      
-      }      
+	 }
+      }
    }
 
    if (_config->FindB("Debug::pkgPolicy",false) == true)
       for (pkgCache::PkgFileIterator F = Cache->FileBegin(); F != Cache->FileEnd(); ++F)
-	 std::clog << "Prio of " << F.FileName() << ' ' << PFPriority[F->ID] << std::endl; 
-   
-   return true;   
+	 std::clog << "Prio of " << F.FileName() << ' ' << PFPriority[F->ID] << std::endl;
+
+   return true;
 }
 									/*}}}*/
 // Policy::GetCandidateVer - Get the candidate install version		/*{{{*/
@@ -168,8 +168,8 @@ pkgCache::VerIterator pkgPolicy::GetCandidateVer(pkgCache::PkgIterator const &Pk
       not-automatic sources, except in a single shot not-installed mode.
       The second pseduo-status file is at prio 1000, above which will permit
       the user to force-downgrade things.
-      
-      The user pin is subject to the same priority rules as default 
+
+      The user pin is subject to the same priority rules as default
       selections. Thus there are two ways to create a pin - a pin that
       tracks the default when the default is taken away, and a permanent
       pin that stays at that setting.
@@ -342,7 +342,7 @@ APT_PURE signed short pkgPolicy::GetPriority(pkgCache::PkgIterator const &Pkg)
 	 return 989;
       return Pins[Pkg->ID].Priority;
    }
-   
+
    return 0;
 }
 APT_PURE signed short pkgPolicy::GetPriority(pkgCache::PkgFileIterator const &File)
@@ -404,12 +404,12 @@ bool ReadPinFile(pkgPolicy &Plcy,string File)
 
    if (RealFileExists(File) == false)
       return true;
-   
+
    FileFd Fd(File,FileFd::ReadOnly);
    pkgTagFile TF(&Fd);
    if (_error->PendingError() == true)
       return false;
-   
+
    PreferenceSection Tags;
    while (TF.Step(Tags) == true)
    {
@@ -422,12 +422,12 @@ bool ReadPinFile(pkgPolicy &Plcy,string File)
 	 return _error->Error(_("Invalid record in the preferences file %s, no Package header"), File.c_str());
       if (Name == "*")
 	 Name = string();
-      
+
       const char *Start;
       const char *End;
       if (Tags.Find("Pin",Start,End) == false)
 	 continue;
-	 
+
       const char *Word = Start;
       for (; Word != End && isspace(*Word) == 0; Word++);
 
