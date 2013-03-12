@@ -371,7 +371,7 @@ class PreferenceSection : public pkgTagSection
    given dir is empty the dir set in Dir::Etc::PreferencesParts is used.
    Note also that this method will issue a warning if the dir does not
    exists but it will return true in this case! */
-bool ReadPinDir(pkgPolicy &Plcy,string Dir)
+bool ReadPinDir(pkgPolicy &Plcy,string Dir, OpProgress *Progress)
 {
    if (Dir.empty() == true)
       Dir = _config->FindDir("Dir::Etc::PreferencesParts");
@@ -386,7 +386,7 @@ bool ReadPinDir(pkgPolicy &Plcy,string Dir)
 
    // Read the files
    for (vector<string>::const_iterator I = List.begin(); I != List.end(); ++I)
-      if (ReadPinFile(Plcy, *I) == false)
+      if (ReadPinFile(Plcy, *I, Progress) == false)
 	 return false;
    return true;
 }
@@ -397,7 +397,7 @@ bool ReadPinDir(pkgPolicy &Plcy,string Dir)
    but right now that is the only stuff I have to store. Later there will
    have to be some kind of combined super parser to get the data into all
    the right classes.. */
-bool ReadPinFile(pkgPolicy &Plcy,string File)
+bool ReadPinFile(pkgPolicy &Plcy,string File, OpProgress *Progress)
 {
    if (File.empty() == true)
       File = _config->FindFile("Dir::Etc::Preferences");
@@ -405,6 +405,7 @@ bool ReadPinFile(pkgPolicy &Plcy,string File)
    if (RealFileExists(File) == false)
       return true;
 
+   // return true;
    FileFd Fd(File,FileFd::ReadOnly);
    pkgTagFile TF(&Fd);
    if (_error->PendingError() == true)
@@ -451,6 +452,14 @@ bool ReadPinFile(pkgPolicy &Plcy,string File)
       {
          _error->Warning(_("No priority (or zero) specified for pin"));
          continue;
+      } else {
+#if 0
+         Progress->OverallProgress(0, 10, 1
+                                   "maruska: pin value ");,
+
+         std::clog << "maruska: pin value " << priority << std::endl;
+#endif
+         // _error->Warning(_("maruska: pin value %s"), priority);
       }
 
       istringstream s(Name);
