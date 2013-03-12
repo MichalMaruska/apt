@@ -162,6 +162,7 @@ bool pkgCacheFile::BuildPolicy(OpProgress * /*Progress*/)
       return false;
 
    if (ReadPinFile(*Policy) == false || ReadPinDir(*Policy) == false)
+           // if (ReadPinFile(*Policy, Progress) == false || ReadPinDir(*Policy, Progress) == false)
       return false;
 
    this->Policy = Policy.release();
