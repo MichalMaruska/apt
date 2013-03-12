@@ -174,8 +174,9 @@ bool pkgCacheFile::BuildPolicy(OpProgress * /*Progress*/)
    if (_error->PendingError() == true)
       return false;
 
-   ReadPinFile(*Policy);
-   ReadPinDir(*Policy);
+   ReadPinFile(*Policy, Progress);
+   ReadPinDir(*Policy, Progress);
+   // if (ReadPinFile(*Policy, Progress) == false || ReadPinDir(*Policy, Progress) == false)
 
    this->Policy = Policy.release();
    return _error->PendingError() == false;
