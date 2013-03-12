@@ -84,7 +84,7 @@ class pkgPolicy : public pkgDepCache::Policy
    void * const d;
 };
 
-bool ReadPinFile(pkgPolicy &Plcy, std::string File = "");
-bool ReadPinDir(pkgPolicy &Plcy, std::string Dir = "");
+bool ReadPinFile(pkgPolicy &Plcy, std::string File = "", OpProgress *Progress = NULL);
+bool ReadPinDir(pkgPolicy &Plcy, std::string Dir = "", OpProgress *Progress = NULL);
 
 #endif
