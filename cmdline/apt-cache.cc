@@ -1521,6 +1521,7 @@ static bool ShowSrcPackage(CommandLine &CmdL)
    return true;
 }
 									/*}}}*/
+#include "colors.h"
 // Policy - Show the results of the preferences file			/*{{{*/
 // ---------------------------------------------------------------------
 /* */
@@ -1597,7 +1598,7 @@ static bool Policy(CommandLine &CmdL)
    APT::PackageList pkgset = APT::PackageList::FromCommandLine(CacheFile, CmdL.FileList + 1, helper);
    for (APT::PackageList::const_iterator Pkg = pkgset.begin(); Pkg != pkgset.end(); ++Pkg)
    {
-      cout << Pkg.FullName(true) << ":" << endl;
+      cout << info_color << Pkg.FullName(true) << color_reset << ":" << endl;
 
       // Installed version
       cout << msgInstalled << OutputInDepth(deepInstalled, " ");
