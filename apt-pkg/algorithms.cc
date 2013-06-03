@@ -79,6 +79,8 @@ void pkgSimulate::Describe(PkgIterator Pkg,ostream &out,bool Current,bool Candid
 
    out << Pkg.FullName(true);
 
+   // mmc: [a] (b)    a is current, b is candidate!
+   // todo: so I want colors!
    if (Current == true)
    {
       Ver = Pkg.CurrentVer();
@@ -1151,6 +1153,7 @@ bool pkgProblemResolver::ResolveInternal(bool const BrokenFix)
       return _error->Error(_("Unable to correct problems, you have held broken packages."));
    }
 
+   // mmc: MVO !
    // set the auto-flags (mvo: I'm not sure if we _really_ need this)
    pkgCache::PkgIterator I = Cache.PkgBegin();
    for (;I.end() != true; ++I) {
