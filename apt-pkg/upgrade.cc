@@ -41,7 +41,8 @@ bool pkgDistUpgrade(pkgDepCache &Cache)
       if (I->CurrentVer != 0)
 	 Cache.MarkInstall(I, false, 0, false);
 
-   /* Auto upgrade all installed packages, this provides the basis 
+   // mmc: repeat with        true!
+   /* Auto upgrade all installed packages, this provides the basis
       for the installation */
    for (pkgCache::PkgIterator I = Cache.PkgBegin(); I.end() == false; ++I)
       if (I->CurrentVer != 0)
@@ -121,6 +122,9 @@ static bool pkgAllUpgradeNoNewPackages(pkgDepCache &Cache)
    // Upgrade all installed packages
    for (pkgCache::PkgIterator I = Cache.PkgBegin(); I.end() == false; ++I)
    {
+      if (true) // (Debug == true)
+         clog << "pkgAllUpgrade considering " << I.FullName(false) << endl;
+
       if (Cache[I].Install() == true)
 	 Fix.Protect(I);
 	  
