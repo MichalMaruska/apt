@@ -1559,9 +1559,9 @@ static bool Policy(CommandLine &CmdL)
 	 // Print the reference information for the package
 	 string Str = F.RelStr();
 	 if (Str.empty() == false)
-	    printf("     release %s\n",F.RelStr().c_str());
+	    printf("	 release %s\n",F.RelStr().c_str());
 	 if (F.Site() != 0 && F.Site()[0] != 0)
-	    printf("     origin %s\n",F.Site());
+	    printf("	 origin %s\n",F.Site());
       }
 
       // Show any packages have explicit pins
@@ -1601,24 +1601,42 @@ static bool Policy(CommandLine &CmdL)
    {
       cout << info_color << Pkg.FullName(true) << color_reset << ":" << endl;
 
+      /* mmc:
+         first compute the 2 versions
+         then compare to decide the colors. */
+      pkgCache::VerIterator Best = Plcy->GetCandidateVer(Pkg);
+
+      const char* current_color;
+
+
       // Installed version
       cout << msgInstalled << OutputInDepth(deepInstalled, " ");
       if (Pkg->CurrentVer == 0)
 	 cout << _("(none)") << endl;
-      else
-	 cout << Pkg.CurrentVer().VerStr() << endl;
+      else {
+         current_color=(strcmp(Pkg.CurrentVer().VerStr(), Best.VerStr()) == 0)?
+             blocked_color : remove_color;
+
+         cout << current_color
+              << Pkg.CurrentVer().VerStr()
+              << color_reset << endl;
+      }
 
       // Candidate Version
       cout << msgCandidate << OutputInDepth(deepCandidate, " ");
-      pkgCache::VerIterator V = Plcy->GetCandidateVer(Pkg);
-      if (V.end() == true)
+      if (Best.end() == true)
 	 cout << _("(none)") << endl;
       else
-	 cout << V.VerStr() << endl;
+         cout << (((Pkg->CurrentVer == 0) ||
+		   (strcmp(Pkg.CurrentVer().VerStr(),
+			   Best.VerStr()) != 0))?
+		  install_color : version_color)
+	      << Best.VerStr() << color_reset << endl;
 
       // Pinned version
       if (Plcy->GetPriority(Pkg) != 0)
       {
+	 pkgCache::VerIterator V;
 	 cout << _("  Package pin: ");
 	 V = Plcy->GetMatch(Pkg);
 	 if (V.end() == true)
@@ -1629,12 +1647,22 @@ static bool Policy(CommandLine &CmdL)
 
       // Show the priority tables
       cout << _("  Version table:") << endl;
-      for (V = Pkg.VersionList(); V.end() == false; ++V)
+      for (pkgCache::VerIterator V = Pkg.VersionList(); V.end() == false; ++V)
       {
-	 if (Pkg.CurrentVer() == V)
-	    cout << " *** " << V.VerStr();
+	 if ((Pkg->CurrentVer != 0) &&
+	     (Pkg.CurrentVer() == V))
+             // color  remove / blocked / install(?)
+             cout << " *** "
+                 // fixme: we already know this color -- see above:
+                  << current_color << V.VerStr() << color_reset;
 	 else
-	    cout << "     " << V.VerStr();
+	    cout << "	  "
+		 << (((Best.end() == true) ||
+		      (strcmp(V.VerStr(),
+			      Best.VerStr()) == 0))?
+		     install_color : version_color)
+		 << V.VerStr() << color_reset;
+
 	 cout << " " << Plcy->GetPriority(Pkg) << endl;
 	 for (pkgCache::VerFileIterator VF = V.FileList(); VF.end() == false; ++VF)
 	 {
@@ -1643,7 +1671,7 @@ static bool Policy(CommandLine &CmdL)
 	    if (SrcList->FindIndex(VF.File(),Indx) == false &&
 		_system->FindIndex(VF.File(),Indx) == false)
 	       return _error->Error(_("Cache is out of sync, can't x-ref a package file"));
-	    printf("       %4i %s\n",Plcy->GetPriority(VF.File()),
+	    printf("	   %4i %s\n",Plcy->GetPriority(VF.File()),
 		   Indx->Describe(true).c_str());
 	 }
       }
