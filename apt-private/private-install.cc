@@ -833,7 +833,7 @@ bool DoInstall(CommandLine &CmdL)
    if (Cache->InstCount() != verset[MOD_INSTALL].size())
       ShowList(c1out, _("The following additional packages will be installed:"), Universe,
 	    PkgIsExtraInstalled(&Cache, &verset[MOD_INSTALL]),
-	    &PrettyFullName, CandidateVersion(&Cache));
+	    &PrettyFullName, CandidateVersion(&Cache),install_color);
 
    /* Print out a list of suggested and recommended packages */
    {
