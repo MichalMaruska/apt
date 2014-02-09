@@ -252,7 +252,7 @@ void ListSingleVersion(pkgCacheFile &CacheFile, pkgRecords &records,	/*{{{*/
 // ---------------------------------------------------------------------
 /* This prints out a string of space separated words with a title and
    a two space indent line wraped to the current screen width. */
-static bool ShowList(ostream &out,string Title,string List,string VersionsList, const char* pkgname_color = warn_color)
+bool ShowList(ostream &out,string Title,string List,string VersionsList, const char* pkgname_color)
 {
    if (List.empty() == true)
       return true;
