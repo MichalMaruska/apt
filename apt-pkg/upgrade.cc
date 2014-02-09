@@ -123,7 +123,7 @@ static bool pkgAllUpgradeNoNewPackages(pkgDepCache &Cache)
    for (pkgCache::PkgIterator I = Cache.PkgBegin(); I.end() == false; ++I)
    {
       if (true) // (Debug == true)
-         clog << "pkgAllUpgrade considering " << I.FullName(false) << endl;
+        std::clog << "pkgAllUpgrade considering " << I.FullName(false) << std::endl;
 
       if (Cache[I].Install() == true)
 	 Fix.Protect(I);
