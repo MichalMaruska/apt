@@ -33,12 +33,13 @@ void ListSingleVersion(pkgCacheFile &CacheFile, pkgRecords &records,
 // helper to describe global state
 APT_PUBLIC void ShowBroken(std::ostream &out, CacheFile &Cache, bool const Now);
 APT_PUBLIC void ShowBroken(std::ostream &out, pkgCacheFile &Cache, bool const Now);
+#include "colors.h"
 
 template<class Container, class PredicateC, class DisplayP, class DisplayV> bool ShowList(std::ostream &out, std::string const &Title,
       Container const &cont,
       PredicateC Predicate,
       DisplayP PkgDisplay,
-      DisplayV VerboseDisplay)
+      DisplayV VerboseDisplay, const char* pkgname_color = warn_color)
 {
    size_t const ScreenWidth = (::ScreenWidth > 3) ? ::ScreenWidth - 3 : 0;
    int ScreenUsed = 0;
@@ -50,6 +51,7 @@ template<class Container, class PredicateC, class DisplayP, class DisplayV> bool
       if (Predicate(Pkg) == false)
 	 continue;
 
+      // this is the header. only once (in this for cycle)
       if (printedTitle == false)
       {
 	 out << Title;
@@ -58,10 +60,10 @@ template<class Container, class PredicateC, class DisplayP, class DisplayV> bool
 
       if (ShowVersions == true)
       {
-	 out << std::endl << "   " << PkgDisplay(Pkg);
+	 out << std::endl << "   " << pkgname_color << PkgDisplay(Pkg) << color_reset;
 	 std::string const verbose = VerboseDisplay(Pkg);
 	 if (verbose.empty() == false)
-	    out << " (" << verbose << ")";
+	    out << " (" << version_color << verbose << color_reset << ")";
       }
       else
       {
