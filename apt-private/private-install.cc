@@ -711,8 +711,8 @@ bool DoInstall(CommandLine &CmdL)
 	 List += I.FullName(true) + " ";
 	 VersionsList += std::string(Cache[I].CandVersion) + "\n";
       }
-      
-      ShowList(c1out,_("The following extra packages will be installed:"),List,VersionsList);
+
+      ShowList(c1out,_("The following extra packages will be installed:"),List,VersionsList, install_color);
    }
 
    /* Print out a list of suggested and recommended packages */

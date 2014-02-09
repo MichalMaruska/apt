@@ -295,7 +295,7 @@ void ListSingleVersion(pkgCacheFile &CacheFile, pkgRecords &records,	/*{{{*/
 									/*}}}*/
 // ShowList - Show a list						/*{{{*/
 // ---------------------------------------------------------------------
-/* This prints out a string of space separated words with a title and 
+/* This prints out a string of space separated words with a title and
    a two space indent line wraped to the current screen width. */
 bool ShowList(ostream &out,string Title,string List,string VersionsList)
 {
@@ -312,7 +312,7 @@ bool ShowList(ostream &out,string Title,string List,string VersionsList)
 
    // Acount for the leading space
    int ScreenWidth = ::ScreenWidth - 3;
-      
+
    out << Title << endl;
    string::size_type Start = 0;
    string::size_type VersionsStart = 0;
@@ -322,12 +322,12 @@ bool ShowList(ostream &out,string Title,string List,string VersionsList)
          VersionsList.size() > 0) {
          string::size_type End;
          string::size_type VersionsEnd;
-         
+
          End = List.find(' ',Start);
          VersionsEnd = VersionsList.find('\n', VersionsStart);
 
-         out << "   " << string(List,Start,End - Start) << " (" << 
-            string(VersionsList,VersionsStart,VersionsEnd - VersionsStart) << 
+         out << "   " << string(List,Start,End - Start) << " (" <<
+            string(VersionsList,VersionsStart,VersionsEnd - VersionsStart) <<
             ")" << endl;
 
 	 if (End == string::npos || End < Start)
@@ -348,7 +348,7 @@ bool ShowList(ostream &out,string Title,string List,string VersionsList)
          out << "  " << string(List,Start,End - Start) << endl;
          Start = End + 1;
       }
-   }   
+   }
 
    return false;
 }
@@ -519,8 +519,8 @@ void ShowNew(ostream &out,CacheFile &Cache)
          VersionsList += string(Cache[I].CandVersion) + "\n";
       }
    }
-   
-   ShowList(out,_("The following NEW packages will be installed:"),List,VersionsList);
+
+   ShowList(out,_("The following NEW packages will be installed:"),List,VersionsList,install_color);
 }
 									/*}}}*/
 // ShowDel - Show packages to delete					/*{{{*/
@@ -541,12 +541,12 @@ void ShowDel(ostream &out,CacheFile &Cache)
 	    List += I.FullName(true) + "* ";
 	 else
 	    List += I.FullName(true) + " ";
-     
+
      VersionsList += string(Cache[I].CandVersion)+ "\n";
       }
    }
-   
-   ShowList(out,_("The following packages will be REMOVED:"),List,VersionsList);
+
+   ShowList(out,_("The following packages will be REMOVED:"),List,VersionsList,remove_color);
 }
 									/*}}}*/
 // ShowKept - Show kept packages					/*{{{*/
@@ -557,18 +557,18 @@ void ShowKept(ostream &out,CacheFile &Cache)
    string List;
    string VersionsList;
    for (unsigned J = 0; J < Cache->Head().PackageCount; J++)
-   {	 
+   {
       pkgCache::PkgIterator I(Cache,Cache.List[J]);
-      
+
       // Not interesting
       if (Cache[I].Upgrade() == true || Cache[I].Upgradable() == false ||
 	  I->CurrentVer == 0 || Cache[I].Delete() == true)
 	 continue;
-      
+
       List += I.FullName(true) + " ";
       VersionsList += string(Cache[I].CurVersion) + " => " + Cache[I].CandVersion + "\n";
    }
-   ShowList(out,_("The following packages have been kept back:"),List,VersionsList);
+   ShowList(out,_("The following packages have been kept back:"),List,VersionsList,blocked_color);
 }
 									/*}}}*/
 // ShowUpgraded - Show upgraded packages				/*{{{*/
@@ -581,7 +581,7 @@ void ShowUpgraded(ostream &out,CacheFile &Cache)
    for (unsigned J = 0; J < Cache->Head().PackageCount; J++)
    {
       pkgCache::PkgIterator I(Cache,Cache.List[J]);
-      
+
       // Not interesting
       if (Cache[I].Upgrade() == false || Cache[I].NewInstall() == true)
 	 continue;
@@ -589,7 +589,7 @@ void ShowUpgraded(ostream &out,CacheFile &Cache)
       List += I.FullName(true) + " ";
       VersionsList += string(Cache[I].CurVersion) + " => " + Cache[I].CandVersion + "\n";
    }
-   ShowList(out,_("The following packages will be upgraded:"),List,VersionsList);
+   ShowList(out,_("The following packages will be upgraded:"),List,VersionsList,install_color);
 }
 									/*}}}*/
 // ShowDowngraded - Show downgraded packages				/*{{{*/
@@ -602,7 +602,7 @@ bool ShowDowngraded(ostream &out,CacheFile &Cache)
    for (unsigned J = 0; J < Cache->Head().PackageCount; J++)
    {
       pkgCache::PkgIterator I(Cache,Cache.List[J]);
-      
+
       // Not interesting
       if (Cache[I].Downgrade() == false || Cache[I].NewInstall() == true)
 	 continue;
@@ -610,7 +610,7 @@ bool ShowDowngraded(ostream &out,CacheFile &Cache)
       List += I.FullName(true) + " ";
       VersionsList += string(Cache[I].CurVersion) + " => " + Cache[I].CandVersion + "\n";
    }
-   return ShowList(out,_("The following packages will be DOWNGRADED:"),List,VersionsList);
+   return ShowList(out,_("The following packages will be DOWNGRADED:"),List,VersionsList,warn_color);
 }
 									/*}}}*/
 // ShowHold - Show held but changed packages				/*{{{*/
@@ -630,13 +630,13 @@ bool ShowHold(ostream &out,CacheFile &Cache)
       }
    }
 
-   return ShowList(out,_("The following held packages will be changed:"),List,VersionsList);
+   return ShowList(out,_("The following held packages will be changed:"),List,VersionsList,warn_color);
 }
 									/*}}}*/
 // ShowEssential - Show an essential package warning			/*{{{*/
 // ---------------------------------------------------------------------
 /* This prints out a warning message that is not to be ignored. It shows
-   all essential packages and their dependents that are to be removed. 
+   all essential packages and their dependents that are to be removed.
    It is insanely risky to remove the dependents of an essential package! */
 bool ShowEssential(ostream &out,CacheFile &Cache)
 {
@@ -645,14 +645,14 @@ bool ShowEssential(ostream &out,CacheFile &Cache)
    bool *Added = new bool[Cache->Head().PackageCount];
    for (unsigned int I = 0; I != Cache->Head().PackageCount; I++)
       Added[I] = false;
-   
+
    for (unsigned J = 0; J < Cache->Head().PackageCount; J++)
    {
       pkgCache::PkgIterator I(Cache,Cache.List[J]);
       if ((I->Flags & pkgCache::Flag::Essential) != pkgCache::Flag::Essential &&
 	  (I->Flags & pkgCache::Flag::Important) != pkgCache::Flag::Important)
 	 continue;
-      
+
       // The essential package is being removed
       if (Cache[I].Delete() == true)
       {
@@ -676,25 +676,25 @@ bool ShowEssential(ostream &out,CacheFile &Cache)
 	 if (D->Type != pkgCache::Dep::PreDepends &&
 	     D->Type != pkgCache::Dep::Depends)
 	    continue;
-	 
+
 	 pkgCache::PkgIterator P = D.SmartTargetPkg();
 	 if (Cache[P].Delete() == true)
 	 {
 	    if (Added[P->ID] == true)
 	       continue;
 	    Added[P->ID] = true;
-	    
+
 	    char S[300];
 	    snprintf(S,sizeof(S),_("%s (due to %s) "),P.FullName(true).c_str(),I.FullName(true).c_str());
 	    List += S;
         //VersionsList += "\n"; ???
-	 }	 
-      }      
+	 }
+      }
    }
-   
+
    delete [] Added;
    return ShowList(out,_("WARNING: The following essential packages will be removed.\n"
-			 "This should NOT be done unless you know exactly what you are doing!"),List,VersionsList);
+			 "This should NOT be done unless you know exactly what you are doing!"),List,VersionsList,remove_color);
 }
 
 									/*}}}*/
