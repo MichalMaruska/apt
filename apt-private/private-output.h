@@ -31,8 +31,9 @@ void ListSingleVersion(pkgCacheFile &CacheFile, pkgRecords &records,
 APT_PUBLIC void ShowBroken(std::ostream &out, CacheFile &Cache, bool const Now);
 APT_PUBLIC void ShowBroken(std::ostream &out, pkgCacheFile &Cache, bool const Now);
 
+#include "colors.h"
 APT_PUBLIC bool ShowList(std::ostream &out, std::string Title, std::string List,
-              std::string VersionsList);
+              std::string VersionsList, const char* pkgname_color = warn_color);
 void ShowNew(std::ostream &out,CacheFile &Cache);
 void ShowDel(std::ostream &out,CacheFile &Cache);
 void ShowKept(std::ostream &out,CacheFile &Cache);
