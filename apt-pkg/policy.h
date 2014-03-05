@@ -88,7 +88,7 @@ class pkgPolicy : public pkgDepCache::Policy
    virtual ~pkgPolicy() {delete [] PFPriority; delete [] Pins;};
 };
 
-bool ReadPinFile(pkgPolicy &Plcy, std::string File = "", OpProgress *Progress = NULL);
-bool ReadPinDir(pkgPolicy &Plcy, std::string Dir = "", OpProgress *Progress = NULL);
+bool ReadPinFile(pkgPolicy &Plcy, std::string File = "");
+bool ReadPinDir(pkgPolicy &Plcy, std::string Dir = "");
 
 #endif
