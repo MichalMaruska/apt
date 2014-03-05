@@ -1522,7 +1522,7 @@ static bool ShowSrcPackage(CommandLine &CmdL)
    return true;
 }
 									/*}}}*/
-#include "colors.h"
+#include "../apt-private/colors.h"
 // Policy - Show the results of the preferences file			/*{{{*/
 // ---------------------------------------------------------------------
 /* */
