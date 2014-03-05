@@ -291,7 +291,7 @@ APT_PURE signed short pkgPolicy::GetPriority(pkgCache::PkgFileIterator const &Fi
    given dir is empty the dir set in Dir::Etc::PreferencesParts is used.
    Note also that this method will issue a warning if the dir does not
    exists but it will return true in this case! */
-bool ReadPinDir(pkgPolicy &Plcy,string Dir, OpProgress *Progress)
+bool ReadPinDir(pkgPolicy &Plcy,string Dir)
 {
    if (Dir.empty() == true)
       Dir = _config->FindDir("Dir::Etc::PreferencesParts", "/dev/null");
@@ -313,7 +313,7 @@ bool ReadPinDir(pkgPolicy &Plcy,string Dir, OpProgress *Progress)
    // Read the files
    bool good = true;
    for (vector<string>::const_iterator I = List.begin(); I != List.end(); ++I)
-       good = ReadPinFile(Plcy, *I, Progress) && good;
+       good = ReadPinFile(Plcy, *I) && good;
    return good;
 }
 									/*}}}*/
@@ -323,7 +323,7 @@ bool ReadPinDir(pkgPolicy &Plcy,string Dir, OpProgress *Progress)
    but right now that is the only stuff I have to store. Later there will
    have to be some kind of combined super parser to get the data into all
    the right classes.. */
-bool ReadPinFile(pkgPolicy &Plcy,string File, OpProgress *Progress)
+bool ReadPinFile(pkgPolicy &Plcy,string File)
 {
    if (File.empty() == true)
       File = _config->FindFile("Dir::Etc::Preferences");
