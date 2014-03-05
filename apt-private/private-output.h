@@ -10,6 +10,7 @@
 #include <string>
 #include <iostream>
 
+#include "colors.h"
 // forward declaration
 class pkgCacheFile;
 class CacheFile;
