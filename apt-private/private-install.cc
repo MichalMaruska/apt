@@ -785,6 +785,8 @@ std::vector<PseudoPkg> GetPseudoPackages(pkgSourceList *const SL, CommandLine &C
    return VolatileCmdL;
 }
 									/*}}}*/
+
+#include "colors.h"
 // DoInstall - Install packages from the command line			/*{{{*/
 // ---------------------------------------------------------------------
 /* Install named packages */
