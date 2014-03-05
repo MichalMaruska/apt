@@ -7,6 +7,7 @@
 #include <fstream>
 #include <string>
 
+#include "colors.h"
 // forward declaration
 class pkgCacheFile;
 class CacheFile;
