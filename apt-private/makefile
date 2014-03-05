@@ -23,7 +23,7 @@ SOURCE += $(foreach private, $(PRIVATES), private-$(private).cc)
 HEADERS += $(foreach private, $(PRIVATES), private-$(private).h)
 
 SOURCE+= acqprogress.cc
-HEADERS+= acqprogress.h private-cacheset.h
+HEADERS+= acqprogress.h private-cacheset.h colors.h
 
 HEADERS := $(addprefix apt-private/,$(HEADERS))
 include $(LIBRARY_H)
