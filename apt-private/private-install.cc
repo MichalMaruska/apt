@@ -669,6 +669,8 @@ bool DoCacheManipulationFromCommandLine(CommandLine &CmdL, std::vector<const cha
    return true;
 }
 									/*}}}*/
+
+#include "colors.h"
 // DoInstall - Install packages from the command line			/*{{{*/
 // ---------------------------------------------------------------------
 /* Install named packages */
