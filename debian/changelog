@@ -1,3 +1,26 @@
+apt (1.0-maruska) unstable; urgency=medium
+
+  [ Michael Vogt ]
+  * Fix crash in "apt list" when a sources.list file is unreable
+    (Closes: 743413)
+
+  [ Michal Maruska ]
+  * Colorize the package names
+  * Remove trailing spaces
+  * grammar
+  * Try hard to Trace when the pinning info is read-in.
+  * revert the attempt to see progress in policy/pinning
+  * comments in colors.h
+  * Add colors to "apt-cache policy"
+  * Print the policy version-table in color
+  * comments
+  * sq: use std::
+  * default value for exported function
+  * fix bug
+  * hack
+
+ -- Michal Maruska <mmaruska@gmail.com>  Sun, 06 Apr 2014 11:39:31 +0000
+
 apt (1.0) unstable; urgency=low
 
   The "Happy birthday and 10000b years in the making" release
