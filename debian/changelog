@@ -1,3 +1,21 @@
+apt (1.0.9.9maruska) unstable; urgency=medium
+
+  * Colorize the package names
+  * Remove trailing spaces
+  * grammar
+  * Try hard to Trace when the pinning info is read-in.
+  * revert the attempt to see progress in policy/pinning
+  * comments in colors.h
+  * Add colors to "apt-cache policy"
+  * Print the policy version-table in color
+  * comments
+  * sq: use std::
+  * default value for exported function
+  * fix bug
+  * hack
+
+ -- Michal Maruska <mmaruska@gmail.com>  Wed, 29 Apr 2015 08:31:25 +0200
+
 apt (1.0.9.9) unstable; urgency=medium
 
   [ David Kalnischkies ]
