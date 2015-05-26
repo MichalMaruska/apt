@@ -1,3 +1,26 @@
+apt (1.0.9.10maruska) unstable; urgency=medium
+
+  [ Julian Andres Klode ]
+  * ExecFork: Use /proc/self/fd to determine which files to close
+    (Closes: #764204)
+
+  [ Michal Maruska ]
+  * Colorize the package names
+  * Remove trailing spaces
+  * grammar
+  * Try hard to Trace when the pinning info is read-in.
+  * revert the attempt to see progress in policy/pinning
+  * comments in colors.h
+  * Add colors to "apt-cache policy"
+  * Print the policy version-table in color
+  * comments
+  * sq: use std::
+  * default value for exported function
+  * fix bug
+  * hack
+
+ -- Michal Maruska <mmaruska@gmail.com>  Tue, 26 May 2015 11:11:35 +0200
+
 apt (1.0.9.10) unstable; urgency=medium
 
   [ Michael Vogt ]
