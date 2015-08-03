@@ -1,3 +1,20 @@
+apt (1.0.10.1maruska) unstable; urgency=medium
+
+  * Colorize the package names
+  * Remove trailing spaces
+  * grammar
+  * comments in colors.h
+  * Add colors to "apt-cache policy"
+  * Print the policy version-table in color
+  * desperate fix
+  * comments
+  * tracing:  considering
+  * Try hard to Trace when the pinning info is read-in.
+  * fix bug
+  * Revert. Keep ABI for aptitude
+
+ -- Michal Maruska <mmaruska@gmail.com>  Tue, 04 Aug 2015 00:38:34 +0200
+
 apt (1.0.10.1) unstable; urgency=medium
 
   * hide first pdiff merge failure debug message (Closes: 793444)
