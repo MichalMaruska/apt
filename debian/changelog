@@ -1,3 +1,20 @@
+apt (1.0.10.2maruska) unstable; urgency=medium
+
+  * Colorize the package names
+  * Remove trailing spaces
+  * grammar
+  * comments in colors.h
+  * Add colors to "apt-cache policy"
+  * Print the policy version-table in color
+  * desperate fix
+  * comments
+  * tracing:  considering
+  * Try hard to Trace when the pinning info is read-in.
+  * fix bug
+  * Revert. Keep ABI for aptitude
+
+ -- Michal Maruska <mmaruska@gmail.com>  Sun, 23 Aug 2015 23:38:35 +0200
+
 apt (1.0.10.2) unstable; urgency=high
 
   * Do not parse Status fields from remote sources
