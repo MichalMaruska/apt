@@ -675,13 +675,15 @@ bool DoCacheManipulationFromCommandLine(CommandLine &CmdL, CacheFile &Cache,
    return true;
 }
 									/*}}}*/
+
+#include "colors.h"
 // DoInstall - Install packages from the command line			/*{{{*/
 // ---------------------------------------------------------------------
 /* Install named packages */
 bool DoInstall(CommandLine &CmdL)
 {
    CacheFile Cache;
-   if (Cache.OpenForInstall() == false || 
+   if (Cache.OpenForInstall() == false ||
        Cache.CheckDeps(CmdL.FileSize() != 1) == false)
       return false;
 
