@@ -28,6 +28,8 @@
 #include <sstream>
 
 #include <apti18n.h>
+
+#include "colors.h"
 									/*}}}*/
 
 using namespace std;
@@ -746,13 +748,11 @@ std::function<std::string(pkgCache::PkgIterator const &)> CandidateVersion(pkgCa
 std::string CurrentToCandidateVersion(pkgCacheFile * const Cache, pkgCache::PkgIterator const &Pkg)
 {
       if ((strstr((*Cache)[Pkg].CurVersion, "maruska") != NULL)
-          && (((*Cache)[Pkg].CandVersion, "maruska") == NULL))
-
-         return VersionsList +=
-                blocked_color +
-                VersionsList += string(Cache[I].CurVersion) + " => " + Cache[I].CandVersion + "\n";
-      else
-            return std::string((*Cache)[Pkg].CurVersion) + " => " + (*Cache)[Pkg].CandVersion;
+          && (((*Cache)[Pkg].CandVersion, "maruska") == NULL)) {
+         return blocked_color + std::string((*Cache)[Pkg].CurVersion) + " => " + (*Cache)[Pkg].CandVersion;
+      } else {
+         return std::string((*Cache)[Pkg].CurVersion) + " => " + (*Cache)[Pkg].CandVersion;
+      }
 }
 
 std::function<std::string(pkgCache::PkgIterator const &)> CurrentToCandidateVersion(pkgCacheFile * const Cache)
