@@ -745,8 +745,16 @@ std::function<std::string(pkgCache::PkgIterator const &)> CandidateVersion(pkgCa
 }
 std::string CurrentToCandidateVersion(pkgCacheFile * const Cache, pkgCache::PkgIterator const &Pkg)
 {
-   return std::string((*Cache)[Pkg].CurVersion) + " => " + (*Cache)[Pkg].CandVersion;
+      if ((strstr((*Cache)[Pkg].CurVersion, "maruska") != NULL)
+          && (((*Cache)[Pkg].CandVersion, "maruska") == NULL))
+
+         return VersionsList +=
+                blocked_color +
+                VersionsList += string(Cache[I].CurVersion) + " => " + Cache[I].CandVersion + "\n";
+      else
+            return std::string((*Cache)[Pkg].CurVersion) + " => " + (*Cache)[Pkg].CandVersion;
 }
+
 std::function<std::string(pkgCache::PkgIterator const &)> CurrentToCandidateVersion(pkgCacheFile * const Cache)
 {
    return std::bind(static_cast<std::string(*)(pkgCacheFile * const, pkgCache::PkgIterator const&)>(&CurrentToCandidateVersion), Cache, std::placeholders::_1);
