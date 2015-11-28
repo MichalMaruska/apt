@@ -1,3 +1,27 @@
+apt (1.1maruska) unstable; urgency=medium
+
+  [ Michael Vogt ]
+  * Deal with killed acquire methods properly instead of hanging
+    (Closes: #806406)
+  * Check if the Apt::Sandbox::User exists in CheckDropPrivsMustBeDisabled()
+    (Closes: #806406)
+
+  [ Michal Maruska ]
+  * Remove trailing spaces
+  * Colorize the package names
+  * grammar
+  * comments in colors.h
+  * comments
+  * tracing:  considering
+  * Try hard to Trace when the pinning info is read-in.
+  * fix bug
+  * Revert. Keep ABI for aptitude
+  * Distinguish upgrades of my versions to non-mine.
+  * fix
+  * Colorize the package names
+
+ -- Michal Maruska <mmaruska@gmail.com>  Sat, 28 Nov 2015 03:53:59 +0100
+
 apt (1.1) unstable; urgency=medium
 
   [ Justin B Rye ]
