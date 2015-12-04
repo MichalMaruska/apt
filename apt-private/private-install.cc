@@ -898,7 +898,7 @@ bool DoInstall(CommandLine &CmdL)
    auto VolatileCmdL = GetPseudoPackages(Cache.GetSourceList(), CmdL, AddVolatileBinaryFile, "");
 
    // then open the cache
-   if (Cache.OpenForInstall() == false || 
+   if (Cache.OpenForInstall() == false ||
        Cache.CheckDeps(CmdL.FileSize() != 1) == false)
       return false;
 
