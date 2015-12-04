@@ -50,7 +50,7 @@ static void SigWinch(int)
    // Riped from GNU ls
 #ifdef TIOCGWINSZ
    struct winsize ws;
-  
+
    if (ioctl(1, TIOCGWINSZ, &ws) != -1 && ws.ws_col >= 5)
       ScreenWidth = ws.ws_col - 1;
 #endif
@@ -99,7 +99,7 @@ bool InitOutput(std::basic_streambuf<char> * const out)			/*{{{*/
       _config->CndSet("APT::Color::Highlight", "\x1B[32m");
       _config->CndSet("APT::Color::Bold", "\x1B[1m");
       _config->CndSet("APT::Color::Neutral", "\x1B[0m");
-      
+
       _config->CndSet("APT::Color::Red", "\x1B[31m");
       _config->CndSet("APT::Color::Green", "\x1B[32m");
       _config->CndSet("APT::Color::Yellow", "\x1B[33m");
@@ -766,17 +766,17 @@ void Stats(ostream &out, pkgDepCache &Dep, APT::PackageVector const &HeldBackPac
 	    if (Dep[I].Downgrade() == true)
 	       Downgrade++;
       }
-      
+
       if (Dep[I].Delete() == false && (Dep[I].iFlags & pkgDepCache::ReInstall) == pkgDepCache::ReInstall)
 	 ReInstall++;
-   }   
+   }
    if (outVer >= 30) {
       ioprintf(out, _("Summary:"));
       ioprintf(out, "\n  ");
    }
    ioprintf(out,outVer < 30 ? _("%lu upgraded, %lu newly installed, ") : _("Upgrading: %lu, Installing: %lu, "),
 	    Upgrade,Install);
-   
+
    if (ReInstall != 0)
       ioprintf(out,outVer < 30 ? _("%lu reinstalled, ") : _("Reinstalling: %lu, "),ReInstall);
    if (Downgrade != 0)
