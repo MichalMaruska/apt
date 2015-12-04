@@ -425,7 +425,7 @@ bool ReadPinFile(pkgPolicy &Plcy,string File)
    {
       // can happen when there are only comments in a record
       if (Tags.Count() == 0)
-         continue;
+	 continue;
 
       auto Name = Tags.Find(pkgTagSection::Key::Package);
       if (Name.empty())
@@ -437,7 +437,7 @@ bool ReadPinFile(pkgPolicy &Plcy,string File)
       const char *End;
       if (Tags.Find("Pin",Start,End) == false)
 	 continue;
-	 
+
       const char *Word = Start;
       for (; Word != End && isspace(*Word) == 0; Word++);
 
