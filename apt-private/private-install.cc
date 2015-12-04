@@ -727,7 +727,7 @@ bool DoInstall(CommandLine &CmdL)
    Cache.GetSourceList()->AddVolatileFiles(CmdL, &VolatileCmdL);
 
    // then open the cache
-   if (Cache.OpenForInstall() == false || 
+   if (Cache.OpenForInstall() == false ||
        Cache.CheckDeps(CmdL.FileSize() != 1) == false)
       return false;
 
