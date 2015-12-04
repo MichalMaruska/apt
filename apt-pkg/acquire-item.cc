@@ -5,7 +5,7 @@
    Acquire Item - Item to acquire
 
    Each item can download to exactly one file at a time. This means you
-   cannot create an item that fetches two uri's to two files at the same 
+   cannot create an item that fetches two uri's to two files at the same
    time. The pkgAcqIndex class creates a second class upon instantiation
    to fetch the other index files because of this.
 
@@ -2791,6 +2791,7 @@ pkgAcqIndexDiffs::pkgAcqIndexDiffs(pkgAcquire *const Owner,
       QueueNextDiff();
    }
 }
+
 									/*}}}*/
 void pkgAcqIndexDiffs::Failed(string const &Message,pkgAcquire::MethodConfig const * const Cnf)/*{{{*/
 {
@@ -2816,7 +2817,7 @@ void pkgAcqIndexDiffs::Failed(string const &Message,pkgAcquire::MethodConfig con
 void pkgAcqIndexDiffs::Finish(bool allDone)
 {
    if(Debug)
-      std::clog << "pkgAcqIndexDiffs::Finish(): " 
+      std::clog << "pkgAcqIndexDiffs::Finish(): "
                 << allDone << " "
                 << Desc.URI << std::endl;
 
@@ -2845,6 +2846,7 @@ void pkgAcqIndexDiffs::Finish(bool allDone)
    Dequeue();
    return;
 }
+
 									/*}}}*/
 bool pkgAcqIndexDiffs::QueueNextDiff()					/*{{{*/
 {
