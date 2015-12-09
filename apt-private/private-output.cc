@@ -27,6 +27,8 @@
 #include <sstream>
 
 #include <apti18n.h>
+
+#include "colors.h"
 									/*}}}*/
 
 using namespace std;
@@ -787,7 +789,13 @@ std::string CurrentToCandidateVersion(pkgCacheFile * const Cache, pkgCache::PkgI
 	 CandVer = CandVerIter.VerStr();
    }
    return  CurVer + " => " + CandVer;
+   if ((std::strstr((*Cache)[Pkg].CurVersion, "maruska") != NULL)
+       && (std::strstr((*Cache)[Pkg].CandVersion, "maruska") == NULL))
+      return std::string(blocked_color) + CurVer + " => " + CandVer + color_reset;
+   else
+      return  CurVer + " => " + CandVer;
 }
+
 std::function<std::string(pkgCache::PkgIterator const &)> CurrentToCandidateVersion(pkgCacheFile * const Cache)
 {
    return std::bind(static_cast<std::string(*)(pkgCacheFile * const, pkgCache::PkgIterator const&)>(&CurrentToCandidateVersion), Cache, std::placeholders::_1);
