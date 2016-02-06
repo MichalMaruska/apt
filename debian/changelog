@@ -1,3 +1,19 @@
+apt (1.2.2maruska) unstable; urgency=medium
+
+  * Remove trailing spaces
+  * Colorize the package names -- intro
+  * spaces
+  * grammar
+  * comments in colors.h
+  * comments
+  * tracing:  considering
+  * Try hard to Trace when the pinning info is read-in.
+  * Revert. Keep ABI for aptitude
+  * Distinguish upgrades of my versions to non-mine.
+  * Colorize the package names
+
+ -- Michal Maruska <mmaruska@gmail.com>  Sat, 06 Feb 2016 19:35:04 +0100
+
 apt (1.2.2) unstable; urgency=medium
 
   [ David Kalnischkies ]
