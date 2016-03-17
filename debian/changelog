@@ -1,3 +1,32 @@
+apt (1.2.8maruska) unstable; urgency=medium
+
+  [ Michael Vogt ]
+  * Get accurate progress reporting in apt update again
+
+  [ Julian Andres Klode ]
+  * Report non-transient errors as errors, not as warnings
+  * methods/gpgv: Rewrite error handling and message.
+    Thanks to Ron Lee for wording suggestions
+  * Use descriptive URIs in 104 Warning messages
+
+  [ David Kalnischkies ]
+  * do not strip epochs from state version strings (Closes: 818162)
+
+  [ Michal Maruska ]
+  * Remove trailing spaces
+  * Colorize the package names -- intro
+  * spaces
+  * grammar
+  * comments in colors.h
+  * comments
+  * tracing:  considering
+  * Try hard to Trace when the pinning info is read-in.
+  * Revert. Keep ABI for aptitude
+  * Distinguish upgrades of my versions to non-mine.
+  * Colorize the package names
+
+ -- Michal Maruska <mmaruska@gmail.com>  Thu, 17 Mar 2016 01:37:36 +0100
+
 apt (1.2.7) unstable; urgency=medium
 
   "Caesar is dead"
