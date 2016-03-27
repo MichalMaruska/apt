@@ -1,3 +1,26 @@
+apt (1.2.9maruska) unstable; urgency=medium
+
+  [ Zhou Mo ]
+  * zh_CN.po: update simplified Chinese translation. (100%)
+
+  [ Julian Andres Klode ]
+  * test-apt-download-progress: Use a larger file for testing
+
+  [ Michal Maruska ]
+  * Remove trailing spaces
+  * Colorize the package names -- intro
+  * spaces
+  * grammar
+  * comments in colors.h
+  * comments
+  * tracing:  considering
+  * Try hard to Trace when the pinning info is read-in.
+  * Revert. Keep ABI for aptitude
+  * Distinguish upgrades of my versions to non-mine.
+  * Colorize the package names
+
+ -- Michal Maruska <mmaruska@gmail.com>  Mon, 28 Mar 2016 01:37:43 +0200
+
 apt (1.2.9) unstable; urgency=high
 
   [ David Kalnischkies ]
