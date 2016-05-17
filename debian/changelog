@@ -1,3 +1,40 @@
+apt (1.3~exp1-maruska) unstable; urgency=medium
+
+  [ Johannes 'josch' Schauer ]
+  * edsp: document unique package identifiers
+
+  [ David Kalnischkies ]
+  * edsp: warn if unexpected stanzas appear in the solution
+  * show globalerrors before asking for confirmation
+  * show final solution in --no-download --fix-missing mode
+
+  [ Julian Andres Klode ]
+  * Provide complete apt bash completion.
+    Thanks to Elias Fröhner and Svyatoslav Gryaznov for the initial work
+    (LP: #1573547)
+  * apt.systemd.daily: Put opening brace of check_power on extra line
+    (LP: #1581985)
+  * Add conflicting Signed-By values to error message
+  * Normalize Signed-By values by removing trailing commas everywhere
+
+  [ Zhou Mo ]
+  * zh_CN.po: update simplified Chinese translation.
+
+  [ Michal Maruska ]
+  * Remove trailing spaces
+  * Colorize the package names -- intro
+  * spaces
+  * grammar
+  * comments in colors.h
+  * comments
+  * tracing:  considering
+  * Try hard to Trace when the pinning info is read-in.
+  * Revert. Keep ABI for aptitude
+  * Distinguish upgrades of my versions to non-mine.
+  * Colorize the package names
+
+ -- Michal Maruska <mmaruska@gmail.com>  Wed, 18 May 2016 01:35:51 +0200
+
 apt (1.3~exp1) experimental; urgency=medium
 
   [ David Kalnischkies ]
