@@ -1,3 +1,19 @@
+apt (1.4~beta4maruska) unstable; urgency=medium
+
+  * Remove trailing spaces
+  * Colorize the package names -- intro
+  * spaces
+  * grammar
+  * comments in colors.h
+  * comments
+  * tracing:  considering
+  * Try hard to Trace when the pinning info is read-in.
+  * Revert. Keep ABI for aptitude
+  * Distinguish upgrades of my versions to non-mine.
+  * Colorize the package names
+
+ -- Michal Maruska <mmaruska@gmail.com>  Wed, 18 Jan 2017 11:06:13 +0100
+
 apt (1.4~beta4) unstable; urgency=medium
 
   * Read dpkg tables to handle architecture wildcards.
