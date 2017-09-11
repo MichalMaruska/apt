@@ -1,3 +1,27 @@
+apt (1.5~rc2-maruska) unstable; urgency=medium
+
+  [ Julian Andres Klode ]
+  * CMake: Properly handle Udev missing
+  * CMake: Mark BZip2, LZMA, and LZ4 as required
+  * apt-helper: Add connman support to wait-online
+
+  [ Michal Maruska ]
+  * Remove trailing spaces
+  * Colorize the package names -- intro
+  * spaces
+  * grammar
+  * comments in colors.h
+  * comments
+  * tracing:  considering
+  * Try hard to Trace when the pinning info is read-in.
+  * Revert. Keep ABI for aptitude
+  * Distinguish upgrades of my versions to non-mine.
+  * Colorize the package names
+  * fix
+  * bump the version
+
+ -- Michal Maruska <mmaruska@gmail.com>  Mon, 11 Sep 2017 12:03:39 +0200
+
 apt (1.5~rc2) unstable; urgency=medium
 
   [ Julian Andres Klode ]
