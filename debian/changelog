@@ -1,3 +1,21 @@
+apt (1.5~rc4-maruska) unstable; urgency=medium
+
+  * Remove trailing spaces
+  * Colorize the package names -- intro
+  * spaces
+  * grammar
+  * comments in colors.h
+  * comments
+  * tracing:  considering
+  * Try hard to Trace when the pinning info is read-in.
+  * Revert. Keep ABI for aptitude
+  * Distinguish upgrades of my versions to non-mine.
+  * Colorize the package names
+  * fix
+  * bump the version
+
+ -- Michal Maruska <mmaruska@gmail.com>  Thu, 14 Sep 2017 10:39:19 +0200
+
 apt (1.5~rc4) unstable; urgency=medium
 
   * apt-daily: Do not Wants=network-online, and add some more After=
