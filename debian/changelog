@@ -1,3 +1,21 @@
+apt (1.6~alpha4-maruska) unstable; urgency=medium
+
+  * Remove trailing spaces
+  * Colorize the package names -- intro
+  * spaces
+  * grammar
+  * comments in colors.h
+  * comments
+  * tracing:  considering
+  * Try hard to Trace when the pinning info is read-in.
+  * Revert. Keep ABI for aptitude
+  * Distinguish upgrades of my versions to non-mine.
+  * Colorize the package names
+  * fix
+  * bump the version
+
+ -- Michal Maruska <mmaruska@gmail.com>  Mon, 06 Nov 2017 20:08:33 +0100
+
 apt (1.6~alpha4) unstable; urgency=medium
 
   * debian: Set Rules-Requires-Root: no
