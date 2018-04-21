@@ -1,3 +1,21 @@
+apt (1.6.1-maruska) unstable; urgency=medium
+
+  * Remove trailing spaces
+  * Colorize the package names -- intro
+  * spaces
+  * grammar
+  * comments in colors.h
+  * comments
+  * tracing:  considering
+  * Try hard to Trace when the pinning info is read-in.
+  * Revert. Keep ABI for aptitude
+  * Distinguish upgrades of my versions to non-mine.
+  * Colorize the package names
+  * fix
+  * release
+
+ -- Michal Maruska <mmaruska@gmail.com>  Sat, 21 Apr 2018 16:18:40 +0200
+
 apt (1.6.1) unstable; urgency=medium
 
   * CMake: Fix builds without zstd
