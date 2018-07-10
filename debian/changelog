@@ -1,3 +1,21 @@
+apt (1.6.3-maruska) unstable; urgency=medium
+
+  * Remove trailing spaces
+  * Colorize the package names -- intro
+  * spaces
+  * grammar
+  * comments in colors.h
+  * comments
+  * tracing:  considering
+  * Try hard to Trace when the pinning info is read-in.
+  * Revert. Keep ABI for aptitude
+  * Distinguish upgrades of my versions to non-mine.
+  * Colorize the package names
+  * fix
+  * release
+
+ -- Michal Maruska <mmaruska@gmail.com>  Tue, 10 Jul 2018 23:14:32 +0200
+
 apt (1.6.3) unstable; urgency=medium
 
   * Handle JSON hooks that just close the file/exit and fix some other errors
