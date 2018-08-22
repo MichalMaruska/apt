@@ -1,3 +1,26 @@
+apt (1.6.4-maruska) unstable; urgency=medium
+
+  [ David Kalnischkies ]
+  * Support records larger than 32kb in 'apt show' (Closes: #905527)
+    (LP: #1787120)
+
+  [ Michal Maruska ]
+  * Remove trailing spaces
+  * Colorize the package names -- intro
+  * spaces
+  * grammar
+  * comments in colors.h
+  * comments
+  * tracing:  considering
+  * Try hard to Trace when the pinning info is read-in.
+  * Revert. Keep ABI for aptitude
+  * Distinguish upgrades of my versions to non-mine.
+  * Colorize the package names
+  * fix
+  * release
+
+ -- Michal Maruska <mmaruska@gmail.com>  Wed, 22 Aug 2018 12:16:26 +0200
+
 apt (1.6.4) unstable; urgency=critical
 
   [ David Kalnischkies ]
