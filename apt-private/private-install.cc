@@ -217,6 +217,7 @@ bool InstallPackages(CacheFile &Cache, APT::PackageVector &HeldBackPackages, boo
       ShowKept(c1out,Cache, HeldBackPackages);
    bool const Hold = not ShowHold(c1out,Cache);
    if (_config->FindB("APT::Get::Show-Upgraded",true) == true)
+     // mmc:
       ShowUpgraded(c1out,Cache);
 
    ShowDel(c1out,Cache);
