@@ -427,6 +427,7 @@ void CommandLine::SaveInConfig(unsigned int const &argc, char const * const * co
    _config->Set("CommandLine::AsString", cmdline);
 }
 									/*}}}*/
+// mmc:
 CommandLine::Args CommandLine::MakeArgs(char ShortOpt, char const *LongOpt, char const *ConfName, unsigned long Flags)/*{{{*/
 {
    /* In theory, this should be a constructor for CommandLine::Args instead,
