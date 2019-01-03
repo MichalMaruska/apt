@@ -572,7 +572,7 @@ bool ShowDowngraded(ostream &out,CacheFile &Cache)
 bool ShowHold(ostream &out,CacheFile &Cache)
 {
    SortedPackageUniverse Universe(Cache);
-   return ShowList(out,_("The following held packages will be changed:"), Universe,
+   return ShowList(out,_("The following held packages will be changed( mmc: held?):"), Universe,
          [&Cache](pkgCache::PkgIterator const &Pkg)
          {
             return Pkg->SelectedState == pkgCache::State::Hold &&
