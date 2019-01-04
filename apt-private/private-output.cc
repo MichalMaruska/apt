@@ -480,16 +480,36 @@ void ShowNew(ostream &out,CacheFile &Cache)
 void ShowDel(ostream &out,CacheFile &Cache)
 {
    SortedPackageUniverse Universe(Cache);
+   static bool found;
+
    ShowList(out,_("The following packages will be REMOVED:"), Universe,
+         // is this a lambda? [](){}
+            // predicate:
          [&Cache](pkgCache::PkgIterator const &Pkg) { return Cache[Pkg].Delete(); },
-         [&Cache](pkgCache::PkgIterator const &Pkg)
+            // action:
+         [&Cache,&found](pkgCache::PkgIterator const &Pkg)
          {
             std::string str = PrettyFullName(Pkg);
             if (((*Cache)[Pkg].iFlags & pkgDepCache::Purge) == pkgDepCache::Purge)
                str.append("*");
+
+            if (std::strstr((*Cache)[Pkg].CurVersion, "maruska") != NULL)
+              {
+                found = true;
+              }
             return str;
          },
          CandidateVersion(&Cache),remove_color);
+
+   if (_config->FindB("APT::Install::Protect-Maruska", false)) {
+       if (found)
+         {
+           out << "Sorry maruska would be removed!" << endl;
+           // todo: write an explanation!
+           exit(1);
+       }
+   }
+
 }
                                                                         /*}}}*/
 // ShowKept - Show kept packages					/*{{{*/
