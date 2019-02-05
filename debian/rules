@@ -11,7 +11,8 @@ export DPKG_GENSYMBOLS_CHECK_LEVEL=0
 export CTEST_OUTPUT_ON_FAILURE=1
 
 %:
-	dh $@ --buildsystem=cmake+ninja
+	dh $@
+#--buildsystem=cmake+ninja
 
 override_dh_clean:
 	cp COPYING debian/copyright
