@@ -1,3 +1,29 @@
+apt (1.8.0~rc2-maruska) unstable; urgency=medium
+
+  [ Julian Andres Klode ]
+  * CMakeLists.txt: Bump C++ standard version to C++14
+
+  [ Michal Maruska ]
+  * Remove trailing spaces
+  * Colorize the package names -- intro
+  * spaces
+  * grammar
+  * comments in colors.h
+  * comments
+  * tracing:  considering
+  * Distinguish upgrades of my versions to non-mine.
+  * Colorize the package names
+  * tab
+  * Exit when the upgrade would remove maruska version.
+  * Try hard to Trace when the pinning info is read-in.
+  * my comments
+  * Revert. Keep ABI for aptitude
+  * Abort if any to-be-dropped package is of '*maruska*' version.
+  * fix
+  * drop ninja
+
+ -- Michal Maruska <mmaruska@gmail.com>  Tue, 05 Feb 2019 11:59:15 +0100
+
 apt (1.8.0~rc2) unstable; urgency=medium
 
   * Bump SONAMEs in preparation for ABI breaks
