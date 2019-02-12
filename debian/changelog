@@ -1,3 +1,31 @@
+apt (1.8.0~rc3-maruska) unstable; urgency=medium
+
+  [ Julian Andres Klode ]
+  * CMakeLists.txt: Bump C++ standard version to C++14
+  * debian: Update to debhelper-compat (= 12)
+  * debian/rules: Do not use dh_install --list-missing (dh 12 porting)
+
+  [ Michal Maruska ]
+  * Remove trailing spaces
+  * Colorize the package names -- intro
+  * spaces
+  * grammar
+  * comments in colors.h
+  * comments
+  * tracing:  considering
+  * Try hard to Trace when the pinning info is read-in.
+  * Distinguish upgrades of my versions to non-mine.
+  * Revert. Keep ABI for aptitude
+  * Colorize the package names
+  * fix
+  * tab
+  * Exit when the upgrade would remove maruska version.
+  * my comments
+  * Abort if any to-be-dropped package is of '*maruska*' version.
+  * drop ninja
+
+ -- Michal Maruska <mmaruska@gmail.com>  Tue, 12 Feb 2019 09:07:22 +0100
+
 apt (1.8.0~rc3) unstable; urgency=medium
 
   [ Julian Andres Klode ]
