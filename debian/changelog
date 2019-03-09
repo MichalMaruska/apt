@@ -1,3 +1,64 @@
+apt (1.8.0-maruska) unstable; urgency=medium
+
+  [ Julian Andres Klode ]
+  * CMakeLists.txt: Bump C++ standard version to C++14
+  * debian: Update to debhelper-compat (= 12)
+  * debian/rules: Do not use dh_install --list-missing (dh 12 porting)
+  * Revert "debian/gbp.conf: Set debian-branch to 1.8.y"
+  * Bump SONAMEs in preparation for ABI breaks
+  * pkgcache: Remove deprecated bits
+  * cacheiterators: Cleanup deprecated code
+  * upgrade: Remove deprecated functions
+  * cachefile: Remove deprecated functions
+  * pkgrecords: Renive deprecated functions
+  * pkgSrcRecords::Parser: Fold Files2() into Files()
+  * clean: Fold pkgArchiveCleaner2 into pkgArchiveCleaner
+  * indexfile: Remove deprecated translation functions
+  * tagfile: Remove deprecated pkgUserTagSection and TFRewrite
+  * acquire: Fold pkgAcquireStatus2 into pkgAcquireStatus
+  * acquire: Remove deprecated pkgAcquire::Setup() function
+  * algorithms: Remove deprecated ProblemResolver::InstallProtect()
+  * metaindex: Remove deprecated checkSum::Hash (replaced by Hashes)
+  * hashes: Remove deprecated functions
+  * indexcopy: Remove deprecated SigVerify::RunGPGV()
+  * pkgcachegen: Remove deprecated functions
+  * packagemanager: Remove deprecated functions
+  * depcache: Remove deprecated functions
+  * netrc: Remove deprecated function maybe_add_auth()
+  * sourceslist: Remove deprecated AddVolatileFiles() variant
+  * sptr: Remove deprecated smart pointer classes
+  * edsp: Remove deprecated functions
+  * strutl: Remove deprecated functions
+  * fileutl: Remove deprecated functions such as gzFd()
+  * dpkgpm: Remove deprecated pkgDPkgPM::SendV2Pkgs()
+  * orderlist: Remove deprecated VisitNode() variant
+  * extracttar: Remove deprecated ExtractTar::Done(bool) variant
+  * acquire-item: Remove deprecated members and functions
+  * apt-private: Remove unused InitLocale() variant
+  * fileutl: Merge Popen variants
+
+  [ Michal Maruska ]
+  * Remove trailing spaces
+  * Colorize the package names -- intro
+  * spaces
+  * grammar
+  * comments in colors.h
+  * comments
+  * tracing:  considering
+  * Distinguish upgrades of my versions to non-mine.
+  * Colorize the package names
+  * Try hard to Trace when the pinning info is read-in.
+  * tab
+  * Revert. Keep ABI for aptitude
+  * Exit when the upgrade would remove maruska version.
+  * fix
+  * my comments
+  * drop ninja
+  * Abort if any to-be-dropped package is of '*maruska*' version.
+  * release
+
+ -- Michal Maruska <mmaruska@gmail.com>  Sat, 09 Mar 2019 20:08:36 +0100
+
 apt (1.8.0) unstable; urgency=medium
 
   [ David Kalnischkies ]
