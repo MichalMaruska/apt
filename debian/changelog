@@ -1,3 +1,10 @@
+apt (1.9.2-maruska1) unstable; urgency=medium
+
+  * Why only 7 compressors?
+  * Revert "Why only 7 compressors?"
+
+ -- Michal Maruska <mmaruska@gmail.com>  Sun, 08 Sep 2019 09:47:42 +0200
+
 apt (1.9.2-maruska) unstable; urgency=medium
 
   * Remove trailing spaces
