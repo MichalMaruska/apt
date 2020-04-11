@@ -1,3 +1,25 @@
+apt (2.0.2-maruska) unstable; urgency=medium
+
+  * Remove trailing spaces
+  * Colorize the package names -- intro
+  * spaces
+  * grammar
+  * comments in colors.h
+  * comments
+  * tracing:  considering
+  * Distinguish upgrades of my versions to non-mine.
+  * Colorize the package names
+  * tab
+  * Exit when the upgrade would remove maruska version.
+  * Try hard to Trace when the pinning info is read-in.
+  * my comments
+  * Revert. Keep ABI for aptitude
+  * drop ninja
+  * Abort if any to-be-dropped package is of '*maruska*' version.
+  * fix
+
+ -- Michal Maruska <mmaruska@gmail.com>  Sat, 11 Apr 2020 16:33:12 +0200
+
 apt (2.0.2) unstable; urgency=medium
 
   [ Boyuan Yang ]
