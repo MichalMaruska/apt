@@ -27,7 +27,9 @@
 #include <sstream>
 
 #include <apti18n.h>
-									/*}}}*/
+
+#include "colors.h"
+                                                                        /*}}}*/
 
 using namespace std;
 
@@ -47,12 +49,12 @@ static void SigWinch(int)
    // Riped from GNU ls
 #ifdef TIOCGWINSZ
    struct winsize ws;
-  
+
    if (ioctl(1, TIOCGWINSZ, &ws) != -1 && ws.ws_col >= 5)
       ScreenWidth = ws.ws_col - 1;
 #endif
 }
-									/*}}}*/
+                                                                        /*}}}*/
 bool InitOutput(std::basic_streambuf<char> * const out)			/*{{{*/
 {
    if (!isatty(STDOUT_FILENO) && _config->FindI("quiet", -1) == -1)
@@ -74,11 +76,11 @@ bool InitOutput(std::basic_streambuf<char> * const out)			/*{{{*/
       auto const sw = strtoul(cols, &colends, 10);
       if (*colends != '\0' || sw == 0)
       {
-	 _error->Warning("Environment variable COLUMNS was ignored as it has an invalid value: \"%s\"", cols);
-	 cols = nullptr;
+         _error->Warning("Environment variable COLUMNS was ignored as it has an invalid value: \"%s\"", cols);
+         cols = nullptr;
       }
       else
-	 ScreenWidth = sw;
+         ScreenWidth = sw;
    }
    if (cols == nullptr)
    {
@@ -95,7 +97,7 @@ bool InitOutput(std::basic_streambuf<char> * const out)			/*{{{*/
       // Colors
       _config->CndSet("APT::Color::Highlight", "\x1B[32m");
       _config->CndSet("APT::Color::Neutral", "\x1B[0m");
-      
+
       _config->CndSet("APT::Color::Red", "\x1B[31m");
       _config->CndSet("APT::Color::Green", "\x1B[32m");
       _config->CndSet("APT::Color::Yellow", "\x1B[33m");
@@ -107,7 +109,7 @@ bool InitOutput(std::basic_streambuf<char> * const out)			/*{{{*/
 
    return true;
 }
-									/*}}}*/
+                                                                        /*}}}*/
 static std::string GetArchiveSuite(pkgCacheFile &/*CacheFile*/, pkgCache::VerIterator ver) /*{{{*/
 {
    std::string suite = "";
@@ -126,7 +128,7 @@ static std::string GetArchiveSuite(pkgCacheFile &/*CacheFile*/, pkgCache::VerIte
    }
    return suite;
 }
-									/*}}}*/
+                                                                        /*}}}*/
 static std::string GetFlagsStr(pkgCacheFile &CacheFile, pkgCache::PkgIterator P)/*{{{*/
 {
    pkgDepCache *DepCache = CacheFile.GetDepCache();
@@ -143,7 +145,7 @@ static std::string GetFlagsStr(pkgCacheFile &CacheFile, pkgCache::PkgIterator P)
       flags_str = "-";
    return flags_str;
 }
-									/*}}}*/
+                                                                        /*}}}*/
 static std::string GetCandidateVersion(pkgCacheFile &CacheFile, pkgCache::PkgIterator P)/*{{{*/
 {
    pkgPolicy *policy = CacheFile.GetPolicy();
@@ -151,14 +153,14 @@ static std::string GetCandidateVersion(pkgCacheFile &CacheFile, pkgCache::PkgIte
 
    return cand ? cand.VerStr() : "(none)";
 }
-									/*}}}*/
+                                                                        /*}}}*/
 static std::string GetInstalledVersion(pkgCacheFile &/*CacheFile*/, pkgCache::PkgIterator P)/*{{{*/
 {
    pkgCache::VerIterator inst = P.CurrentVer();
 
    return inst ? inst.VerStr() : "(none)";
 }
-									/*}}}*/
+                                                                        /*}}}*/
 static std::string GetVersion(pkgCacheFile &/*CacheFile*/, pkgCache::VerIterator V)/*{{{*/
 {
    pkgCache::PkgIterator P = V.ParentPkg();
@@ -178,7 +180,7 @@ static std::string GetVersion(pkgCacheFile &/*CacheFile*/, pkgCache::VerIterator
       return DeNull(V.VerStr());
    return "(none)";
 }
-									/*}}}*/
+                                                                        /*}}}*/
 static std::string GetArchitecture(pkgCacheFile &CacheFile, pkgCache::PkgIterator P)/*{{{*/
 {
    if (P->CurrentVer == 0)
@@ -187,22 +189,22 @@ static std::string GetArchitecture(pkgCacheFile &CacheFile, pkgCache::PkgIterato
       pkgDepCache::StateCache const &state = (*DepCache)[P];
       if (state.CandidateVer != NULL)
       {
-	 pkgCache::VerIterator const CandV(CacheFile, state.CandidateVer);
-	 return CandV.Arch();
+         pkgCache::VerIterator const CandV(CacheFile, state.CandidateVer);
+         return CandV.Arch();
       }
       else
       {
-	 pkgCache::VerIterator const V = P.VersionList();
-	 if (V.end() == false)
-	    return V.Arch();
-	 else
-	    return P.Arch();
+         pkgCache::VerIterator const V = P.VersionList();
+         if (V.end() == false)
+            return V.Arch();
+         else
+            return P.Arch();
       }
    }
    else
       return P.CurrentVer().Arch();
 }
-									/*}}}*/
+                                                                        /*}}}*/
 static std::string GetShortDescription(pkgCacheFile &CacheFile, pkgRecords &records, pkgCache::PkgIterator P)/*{{{*/
 {
    pkgPolicy *policy = CacheFile.GetPolicy();
@@ -219,13 +221,13 @@ static std::string GetShortDescription(pkgCacheFile &CacheFile, pkgRecords &reco
       pkgCache::DescIterator const Desc = ver.TranslatedDescription();
       if (Desc.end() == false)
       {
-	 pkgRecords::Parser & parser = records.Lookup(Desc.FileList());
-	 ShortDescription = parser.ShortDesc();
+         pkgRecords::Parser & parser = records.Lookup(Desc.FileList());
+         ShortDescription = parser.ShortDesc();
       }
    }
    return ShortDescription;
 }
-									/*}}}*/
+                                                                        /*}}}*/
 static std::string GetLongDescription(pkgCacheFile &CacheFile, pkgRecords &records, pkgCache::PkgIterator P)/*{{{*/
 {
    pkgPolicy *policy = CacheFile.GetPolicy();
@@ -246,11 +248,11 @@ static std::string GetLongDescription(pkgCacheFile &CacheFile, pkgRecords &recor
       pkgRecords::Parser & parser = records.Lookup(Desc.FileList());
       std::string const longdesc = parser.LongDesc();
       if (longdesc.empty() == false)
-	 return SubstVar(longdesc, "\n ", "\n  ");
+         return SubstVar(longdesc, "\n ", "\n  ");
    }
    return EmptyDescription;
 }
-									/*}}}*/
+                                                                        /*}}}*/
 void ListSingleVersion(pkgCacheFile &CacheFile, pkgRecords &records,	/*{{{*/
                        pkgCache::VerIterator const &V, std::ostream &out,
                        std::string const &format)
@@ -283,21 +285,21 @@ void ListSingleVersion(pkgCacheFile &CacheFile, pkgRecords &records,	/*{{{*/
    {
       if (P.CurrentVer() == V)
       {
-	 if (state.Upgradable() && state.CandidateVer != NULL)
-	    strprintf(StatusStr, _("[installed,upgradable to: %s]"),
-		  CandidateVerStr.c_str());
-	 else if (V.Downloadable() == false)
-	    StatusStr = _("[installed,local]");
-	 else if(V.Automatic() == true && state.Garbage == true)
-	    StatusStr = _("[installed,auto-removable]");
-	 else if ((state.Flags & pkgCache::Flag::Auto) == pkgCache::Flag::Auto)
-	    StatusStr = _("[installed,automatic]");
-	 else
-	    StatusStr = _("[installed]");
+         if (state.Upgradable() && state.CandidateVer != NULL)
+            strprintf(StatusStr, _("[installed,upgradable to: %s]"),
+                  CandidateVerStr.c_str());
+         else if (V.Downloadable() == false)
+            StatusStr = _("[installed,local]");
+         else if(V.Automatic() == true && state.Garbage == true)
+            StatusStr = _("[installed,auto-removable]");
+         else if ((state.Flags & pkgCache::Flag::Auto) == pkgCache::Flag::Auto)
+            StatusStr = _("[installed,automatic]");
+         else
+            StatusStr = _("[installed]");
       }
       else if (state.CandidateVer == V && state.Upgradable())
-	 strprintf(StatusStr, _("[upgradable from: %s]"),
-	       InstalledVerStr.c_str());
+         strprintf(StatusStr, _("[upgradable from: %s]"),
+               InstalledVerStr.c_str());
    }
    else if (V.ParentPkg()->CurrentState == pkgCache::State::ConfigFiles)
       StatusStr = _("[residual-config]");
@@ -315,7 +317,7 @@ void ListSingleVersion(pkgCacheFile &CacheFile, pkgRecords &records,	/*{{{*/
 
    out << output;
 }
-									/*}}}*/
+                                                                        /*}}}*/
 // ShowBroken - Debugging aide						/*{{{*/
 // ---------------------------------------------------------------------
 /* This prints out the names of all the packages that are broken along
@@ -333,12 +335,12 @@ static void ShowBrokenPackage(ostream &out, pkgCacheFile * const Cache, pkgCache
    if (Now == true)
    {
       if ((*Cache)[Pkg].NowBroken() == false)
-	 return;
+         return;
    }
    else
    {
       if ((*Cache)[Pkg].InstBroken() == false)
-	 return;
+         return;
    }
 
    // Print out each package and the failed dependencies
@@ -366,80 +368,80 @@ static void ShowBrokenPackage(ostream &out, pkgCacheFile * const Cache, pkgCache
       D.GlobOr(Start,End); // advances D
 
       if ((*Cache)->IsImportantDep(End) == false)
-	 continue;
+         continue;
 
       if (Now == true)
       {
-	 if (((*Cache)[End] & pkgDepCache::DepGNow) == pkgDepCache::DepGNow)
-	    continue;
+         if (((*Cache)[End] & pkgDepCache::DepGNow) == pkgDepCache::DepGNow)
+            continue;
       }
       else
       {
-	 if (((*Cache)[End] & pkgDepCache::DepGInstall) == pkgDepCache::DepGInstall)
-	    continue;
+         if (((*Cache)[End] & pkgDepCache::DepGInstall) == pkgDepCache::DepGInstall)
+            continue;
       }
 
       bool FirstOr = true;
       while (1)
       {
-	 if (First == false)
-	    for (unsigned J = 0; J != Indent; J++)
-	       out << ' ';
-	 First = false;
+         if (First == false)
+            for (unsigned J = 0; J != Indent; J++)
+               out << ' ';
+         First = false;
 
-	 if (FirstOr == false)
-	 {
-	    for (unsigned J = 0; J != strlen(End.DepType()) + 3; J++)
-	       out << ' ';
-	 }
-	 else
-	    out << ' ' << End.DepType() << ": ";
-	 FirstOr = false;
+         if (FirstOr == false)
+         {
+            for (unsigned J = 0; J != strlen(End.DepType()) + 3; J++)
+               out << ' ';
+         }
+         else
+            out << ' ' << End.DepType() << ": ";
+         FirstOr = false;
 
-	 out << Start.TargetPkg().FullName(true);
+         out << Start.TargetPkg().FullName(true);
 
-	 // Show a quick summary of the version requirements
-	 if (Start.TargetVer() != 0)
-	    out << " (" << Start.CompType() << " " << Start.TargetVer() << ")";
+         // Show a quick summary of the version requirements
+         if (Start.TargetVer() != 0)
+            out << " (" << Start.CompType() << " " << Start.TargetVer() << ")";
 
-	 /* Show a summary of the target package if possible. In the case
-	    of virtual packages we show nothing */
-	 pkgCache::PkgIterator Targ = Start.TargetPkg();
-	 if (Targ->ProvidesList == 0)
-	 {
-	    out << ' ';
-	    pkgCache::VerIterator Ver = (*Cache)[Targ].InstVerIter(*Cache);
-	    if (Now == true)
-	       Ver = Targ.CurrentVer();
+         /* Show a summary of the target package if possible. In the case
+            of virtual packages we show nothing */
+         pkgCache::PkgIterator Targ = Start.TargetPkg();
+         if (Targ->ProvidesList == 0)
+         {
+            out << ' ';
+            pkgCache::VerIterator Ver = (*Cache)[Targ].InstVerIter(*Cache);
+            if (Now == true)
+               Ver = Targ.CurrentVer();
 
-	    if (Ver.end() == false)
-	    {
-	       if (Now == true)
-		  ioprintf(out,_("but %s is installed"),Ver.VerStr());
-	       else
-		  ioprintf(out,_("but %s is to be installed"),Ver.VerStr());
-	    }
-	    else
-	    {
-	       if ((*Cache)[Targ].CandidateVerIter(*Cache).end() == true)
-	       {
-		  if (Targ->ProvidesList == 0)
-		     out << _("but it is not installable");
-		  else
-		     out << _("but it is a virtual package");
-	       }
-	       else
-		  out << (Now?_("but it is not installed"):_("but it is not going to be installed"));
-	    }
-	 }
+            if (Ver.end() == false)
+            {
+               if (Now == true)
+                  ioprintf(out,_("but %s is installed"),Ver.VerStr());
+               else
+                  ioprintf(out,_("but %s is to be installed"),Ver.VerStr());
+            }
+            else
+            {
+               if ((*Cache)[Targ].CandidateVerIter(*Cache).end() == true)
+               {
+                  if (Targ->ProvidesList == 0)
+                     out << _("but it is not installable");
+                  else
+                     out << _("but it is a virtual package");
+               }
+               else
+                  out << (Now?_("but it is not installed"):_("but it is not going to be installed"));
+            }
+         }
 
-	 if (Start != End)
-	    out << _(" or");
-	 out << endl;
+         if (Start != End)
+            out << _(" or");
+         out << endl;
 
-	 if (Start == End)
-	    break;
-	 ++Start;
+         if (Start == End)
+            break;
+         ++Start;
       }
    }
 }
@@ -463,62 +465,94 @@ void ShowBroken(ostream &out, pkgCacheFile &Cache, bool const Now)
    for (auto const &Pkg: Universe)
       ShowBrokenPackage(out, &Cache, Pkg, Now);
 }
-									/*}}}*/
+                                                                        /*}}}*/
 // ShowNew - Show packages to newly install				/*{{{*/
 void ShowNew(ostream &out,CacheFile &Cache)
 {
    SortedPackageUniverse Universe(Cache);
    ShowList(out,_("The following NEW packages will be installed:"), Universe,
-	 [&Cache](pkgCache::PkgIterator const &Pkg) { return Cache[Pkg].NewInstall(); },
-	 &PrettyFullName,
-	 CandidateVersion(&Cache));
+         [&Cache](pkgCache::PkgIterator const &Pkg) { return Cache[Pkg].NewInstall(); },
+         &PrettyFullName,
+         CandidateVersion(&Cache),install_color);
 }
-									/*}}}*/
+                                                                        /*}}}*/
 // ShowDel - Show packages to delete					/*{{{*/
 void ShowDel(ostream &out,CacheFile &Cache)
 {
    SortedPackageUniverse Universe(Cache);
+   static bool found;
+
    ShowList(out,_("The following packages will be REMOVED:"), Universe,
-	 [&Cache](pkgCache::PkgIterator const &Pkg) { return Cache[Pkg].Delete(); },
-	 [&Cache](pkgCache::PkgIterator const &Pkg)
-	 {
-	    std::string str = PrettyFullName(Pkg);
-	    if (((*Cache)[Pkg].iFlags & pkgDepCache::Purge) == pkgDepCache::Purge)
-	       str.append("*");
-	    return str;
-	 },
-	 CandidateVersion(&Cache));
+         // is this a lambda? [](){}
+            // predicate:
+         [&Cache](pkgCache::PkgIterator const &Pkg) { return Cache[Pkg].Delete(); },
+            // action:
+         [&Cache,&found](pkgCache::PkgIterator const &Pkg)
+         {
+            std::string str = PrettyFullName(Pkg);
+            if (((*Cache)[Pkg].iFlags & pkgDepCache::Purge) == pkgDepCache::Purge)
+               str.append("*");
+
+            if (std::strstr((*Cache)[Pkg].CurVersion, "maruska") != NULL)
+              {
+                found = true;
+              }
+            return str;
+         },
+         CandidateVersion(&Cache),remove_color);
+
+   if (_config->FindB("APT::Install::Protect-Maruska", false)) {
+       if (found)
+         {
+           out << "Sorry maruska would be removed!" << endl;
+           // todo: write an explanation!
+           exit(1);
+       }
+   }
+
 }
-									/*}}}*/
+                                                                        /*}}}*/
 // ShowKept - Show kept packages					/*{{{*/
 void ShowKept(ostream &out,CacheFile &Cache)
 {
    SortedPackageUniverse Universe(Cache);
    ShowList(out,_("The following packages have been kept back:"), Universe,
-	 [&Cache](pkgCache::PkgIterator const &Pkg)
-	 {
-	    return Cache[Pkg].Upgrade() == false &&
-		   Cache[Pkg].Upgradable() == true &&
-		   Pkg->CurrentVer != 0 &&
-		   Cache[Pkg].Delete() == false;
-	 },
-	 &PrettyFullName,
-	 CurrentToCandidateVersion(&Cache));
+         [&Cache](pkgCache::PkgIterator const &Pkg)
+         {
+            return Cache[Pkg].Upgrade() == false &&
+                   Cache[Pkg].Upgradable() == true &&
+                   Pkg->CurrentVer != 0 &&
+                   Cache[Pkg].Delete() == false;
+         },
+         &PrettyFullName,
+         CurrentToCandidateVersion(&Cache),blocked_color);
 }
-									/*}}}*/
+                                                                        /*}}}*/
+static bool found;
+
 // ShowUpgraded - Show upgraded packages				/*{{{*/
 void ShowUpgraded(ostream &out,CacheFile &Cache)
 {
    SortedPackageUniverse Universe(Cache);
+   if (_config->FindB("APT::Install::Protect-Maruska", false)) {
+     found = false;
+   }
+
    ShowList(out,_("The following packages will be upgraded:"), Universe,
-	 [&Cache](pkgCache::PkgIterator const &Pkg)
-	 {
-	    return Cache[Pkg].Upgrade() == true && Cache[Pkg].NewInstall() == false;
-	 },
-	 &PrettyFullName,
-	 CurrentToCandidateVersion(&Cache));
+         [&Cache](pkgCache::PkgIterator const &Pkg)
+         {
+            return Cache[Pkg].Upgrade() == true && Cache[Pkg].NewInstall() == false;
+         },
+         &PrettyFullName,
+         CurrentToCandidateVersion(&Cache),install_color);
+
+   if (_config->FindB("APT::Install::Protect-Maruska", false)) {
+       if (found) {
+           exit(1);
+       }
+   }
 }
-									/*}}}*/
+                                                                        /*}}}*/
 // ShowDowngraded - Show downgraded packages				/*{{{*/
 // ---------------------------------------------------------------------
 /* */
@@ -526,28 +560,28 @@ bool ShowDowngraded(ostream &out,CacheFile &Cache)
 {
    SortedPackageUniverse Universe(Cache);
    return ShowList(out,_("The following packages will be DOWNGRADED:"), Universe,
-	 [&Cache](pkgCache::PkgIterator const &Pkg)
-	 {
-	    return Cache[Pkg].Downgrade() == true && Cache[Pkg].NewInstall() == false;
-	 },
-	 &PrettyFullName,
-	 CurrentToCandidateVersion(&Cache));
+         [&Cache](pkgCache::PkgIterator const &Pkg)
+         {
+            return Cache[Pkg].Downgrade() == true && Cache[Pkg].NewInstall() == false;
+         },
+         &PrettyFullName,
+         CurrentToCandidateVersion(&Cache),warn_color);
 }
-									/*}}}*/
+                                                                        /*}}}*/
 // ShowHold - Show held but changed packages				/*{{{*/
 bool ShowHold(ostream &out,CacheFile &Cache)
 {
    SortedPackageUniverse Universe(Cache);
    return ShowList(out,_("The following held packages will be changed:"), Universe,
-	 [&Cache](pkgCache::PkgIterator const &Pkg)
-	 {
-	    return Pkg->SelectedState == pkgCache::State::Hold &&
-		   Cache[Pkg].InstallVer != (pkgCache::Version *)Pkg.CurrentVer();
-	 },
-	 &PrettyFullName,
-	 CurrentToCandidateVersion(&Cache));
+         [&Cache](pkgCache::PkgIterator const &Pkg)
+         {
+            return Pkg->SelectedState == pkgCache::State::Hold &&
+                   Cache[Pkg].InstallVer != (pkgCache::Version *)Pkg.CurrentVer();
+         },
+         &PrettyFullName,
+         CurrentToCandidateVersion(&Cache),warn_color);
 }
-									/*}}}*/
+                                                                        /*}}}*/
 // ShowEssential - Show an essential package warning			/*{{{*/
 // ---------------------------------------------------------------------
 /* This prints out a warning message that is not to be ignored. It shows
@@ -579,47 +613,47 @@ bool ShowEssential(ostream &out,CacheFile &Cache)
    for (pkgCache::PkgIterator const &I: Universe)
    {
       if ((I->Flags & pkgCache::Flag::Essential) != pkgCache::Flag::Essential &&
-	  (I->Flags & pkgCache::Flag::Important) != pkgCache::Flag::Important)
-	 continue;
+          (I->Flags & pkgCache::Flag::Important) != pkgCache::Flag::Important)
+         continue;
 
       // The essential package is being removed
       if (Cache[I].Delete() == false)
-	 continue;
+         continue;
 
       if (Added[I->ID] == false)
       {
-	 Added[I->ID] = true;
-	 pkglist.insert(I);
+         Added[I->ID] = true;
+         pkglist.insert(I);
       }
 
       if (I->CurrentVer == 0)
-	 continue;
+         continue;
 
       // Print out any essential package depenendents that are to be removed
       for (pkgCache::DepIterator D = I.CurrentVer().DependsList(); D.end() == false; ++D)
       {
-	 // Skip everything but depends
-	 if (D->Type != pkgCache::Dep::PreDepends &&
-	     D->Type != pkgCache::Dep::Depends)
-	    continue;
+         // Skip everything but depends
+         if (D->Type != pkgCache::Dep::PreDepends &&
+             D->Type != pkgCache::Dep::Depends)
+            continue;
 
-	 pkgCache::PkgIterator P = D.SmartTargetPkg();
-	 if (Cache[P].Delete() == true)
-	 {
-	    if (Added[P->ID] == true)
-	       continue;
-	    Added[P->ID] = true;
+         pkgCache::PkgIterator P = D.SmartTargetPkg();
+         if (Cache[P].Delete() == true)
+         {
+            if (Added[P->ID] == true)
+               continue;
+            Added[P->ID] = true;
 
-	    pkglist.insert(P);
-	    withdue.due[P->ID] = I;
-	 }
+            pkglist.insert(P);
+            withdue.due[P->ID] = I;
+         }
       }
    }
    return ShowList(out,_("WARNING: The following essential packages will be removed.\n"
-			 "This should NOT be done unless you know exactly what you are doing!"),
-	 pkglist, &AlwaysTrue, withdue, &EmptyString);
+                         "This should NOT be done unless you know exactly what you are doing!"),
+         pkglist, &AlwaysTrue, withdue, &EmptyString,remove_color);
 }
-									/*}}}*/
+                                                                        /*}}}*/
 // Stats - Show some statistics						/*{{{*/
 // ---------------------------------------------------------------------
 /* */
@@ -632,36 +666,36 @@ void Stats(ostream &out,pkgDepCache &Dep)
    for (pkgCache::PkgIterator I = Dep.PkgBegin(); I.end() == false; ++I)
    {
       if (Dep[I].NewInstall() == true)
-	 Install++;
+         Install++;
       else
       {
-	 if (Dep[I].Upgrade() == true)
-	    Upgrade++;
-	 else
-	    if (Dep[I].Downgrade() == true)
-	       Downgrade++;
+         if (Dep[I].Upgrade() == true)
+            Upgrade++;
+         else
+            if (Dep[I].Downgrade() == true)
+               Downgrade++;
       }
-      
+
       if (Dep[I].Delete() == false && (Dep[I].iFlags & pkgDepCache::ReInstall) == pkgDepCache::ReInstall)
-	 ReInstall++;
-   }   
+         ReInstall++;
+   }
 
    ioprintf(out,_("%lu upgraded, %lu newly installed, "),
-	    Upgrade,Install);
-   
+            Upgrade,Install);
+
    if (ReInstall != 0)
       ioprintf(out,_("%lu reinstalled, "),ReInstall);
    if (Downgrade != 0)
       ioprintf(out,_("%lu downgraded, "),Downgrade);
 
    ioprintf(out,_("%lu to remove and %lu not upgraded.\n"),
-	    Dep.DelCount(),Dep.KeepCount());
-   
+            Dep.DelCount(),Dep.KeepCount());
+
    if (Dep.BadCount() != 0)
       ioprintf(out,_("%lu not fully installed or removed.\n"),
-	       Dep.BadCount());
+               Dep.BadCount());
 }
-									/*}}}*/
+                                                                        /*}}}*/
 // YnPrompt - Yes No Prompt.						/*{{{*/
 // ---------------------------------------------------------------------
 /* Returns true on a Yes.*/
@@ -673,9 +707,9 @@ bool YnPrompt(char const * const Question, bool const Default, bool const ShowGl
    if (ShowGlobalErrors == true && AssumeYes == false && AssumeNo == false)
    {
       if (_config->FindI("quiet",0) > 0)
-	 _error->DumpErrors(c2o);
+         _error->DumpErrors(c2o);
       else
-	 _error->DumpErrors(c2o, GlobalError::DEBUG);
+         _error->DumpErrors(c2o, GlobalError::DEBUG);
    }
 
    c2o << Question << std::flush;
@@ -750,7 +784,7 @@ bool YnPrompt(char const * const Question, bool const Default)
 {
    return YnPrompt(Question, Default, true, c1out, c2out);
 }
-									/*}}}*/
+                                                                        /*}}}*/
 // AnalPrompt - Annoying Yes No Prompt.					/*{{{*/
 // ---------------------------------------------------------------------
 /* Returns true on a Yes.*/
@@ -768,7 +802,7 @@ bool AnalPrompt(std::string const &Question, const char *Text)
       return true;
    return false;
 }
-									/*}}}*/
+                                                                        /*}}}*/
 
 std::string PrettyFullName(pkgCache::PkgIterator const &Pkg)
 {
@@ -782,10 +816,19 @@ std::function<std::string(pkgCache::PkgIterator const &)> CandidateVersion(pkgCa
 {
    return std::bind(static_cast<std::string(*)(pkgCacheFile * const, pkgCache::PkgIterator const&)>(&CandidateVersion), Cache, std::placeholders::_1);
 }
+
 std::string CurrentToCandidateVersion(pkgCacheFile * const Cache, pkgCache::PkgIterator const &Pkg)
 {
-   return std::string((*Cache)[Pkg].CurVersion) + " => " + (*Cache)[Pkg].CandVersion;
+   if ((std::strstr((*Cache)[Pkg].CurVersion, "maruska") != NULL)
+       && (std::strstr((*Cache)[Pkg].CandVersion, "maruska") == NULL))
+   {
+      found = true;
+      return std::string(blocked_color) + string((*Cache)[Pkg].CurVersion) + " => " + (*Cache)[Pkg].CandVersion + color_reset;
+   } else
+      return std::string((*Cache)[Pkg].CurVersion) + " => " + (*Cache)[Pkg].CandVersion;
+
 }
+
 std::function<std::string(pkgCache::PkgIterator const &)> CurrentToCandidateVersion(pkgCacheFile * const Cache)
 {
    return std::bind(static_cast<std::string(*)(pkgCacheFile * const, pkgCache::PkgIterator const&)>(&CurrentToCandidateVersion), Cache, std::placeholders::_1);
@@ -798,4 +841,3 @@ std::string EmptyString(pkgCache::PkgIterator const &)
 {
    return std::string();
 }
-
