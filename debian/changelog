@@ -1,3 +1,17 @@
+apt (2.1.3-maruska) unstable; urgency=medium
+
+  * Remove trailing spaces
+  * Colorize the package names -- intro
+  * spaces
+  * grammar
+  * comments in colors.h
+  * comments
+  * tracing:  considering
+  * Distinguish upgrades of my versions to non-mine.
+  * Colorize the package names
+
+ -- Michal Maruska <mmaruska@gmail.com>  Tue, 19 May 2020 08:26:09 +0200
+
 apt (2.1.3) unstable; urgency=medium
 
   [ David Kalnischkies ]
