@@ -1,3 +1,21 @@
+apt (2.1.5-maruska) unstable; urgency=medium
+
+  [ David Kalnischkies ]
+  * Fix small memory leak in MethodConfig
+
+  [ Michal Maruska ]
+  * Remove trailing spaces
+  * Colorize the package names -- intro
+  * spaces
+  * grammar
+  * comments in colors.h
+  * comments
+  * tracing:  considering
+  * Distinguish upgrades of my versions to non-mine.
+  * Colorize the package names
+
+ -- Michal Maruska <mmaruska@gmail.com>  Wed, 27 May 2020 19:35:45 +0200
+
 apt (2.1.5) unstable; urgency=medium
 
   [ David Kalnischkies ]
