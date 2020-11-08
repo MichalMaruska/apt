@@ -13,6 +13,7 @@
 									/*}}}*/
 // Include Files							/*{{{*/
 #include <config.h>
+#include "../apt-private/colors.h"
 
 #include <apt-pkg/algorithms.h>
 #include <apt-pkg/cachefile.h>
@@ -76,7 +77,7 @@ static bool DumpPackage(CommandLine &CmdL)
 
    for (APT::PackageList::const_iterator Pkg = pkgset.begin(); Pkg != pkgset.end(); ++Pkg)
    {
-      cout << "Package: " << Pkg.FullName(true) << endl;
+      cout << "Package: " << info_color << Pkg.FullName(true) << color_reset << endl;
       cout << "Versions: " << endl;
       for (pkgCache::VerIterator Cur = Pkg.VersionList(); Cur.end() != true; ++Cur)
       {
