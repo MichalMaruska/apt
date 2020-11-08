@@ -501,11 +501,17 @@ void ShowKept(ostream &out,CacheFile &Cache, APT::PackageVector const &HeldBackP
 	 &PrettyFullName,
 	 CurrentToCandidateVersion(&Cache), blocked_color);
 }
-									/*}}}*/
+                                                                        /*}}}*/
+static bool found;
+
 // ShowUpgraded - Show upgraded packages				/*{{{*/
 void ShowUpgraded(ostream &out,CacheFile &Cache)
 {
    SortedPackageUniverse Universe(Cache);
+   if (_config->FindB("APT::Install::Protect-Maruska", false)) {
+      found = false;
+   }
+
    ShowList(out,_("The following packages will be upgraded:"), Universe,
 	 [&Cache](pkgCache::PkgIterator const &Pkg)
 	 {
@@ -513,6 +519,12 @@ void ShowUpgraded(ostream &out,CacheFile &Cache)
 	 },
 	 &PrettyFullName,
 	 CurrentToCandidateVersion(&Cache), install_color);
+
+   if (_config->FindB("APT::Install::Protect-Maruska", false)) {
+      if (found) {
+         exit(1);
+      }
+   }
 }
 									/*}}}*/
 // ShowDowngraded - Show downgraded packages				/*{{{*/
@@ -760,6 +772,7 @@ std::function<std::string(pkgCache::PkgIterator const &)> CandidateVersion(pkgCa
 {
    return std::bind(static_cast<std::string(*)(pkgCacheFile * const, pkgCache::PkgIterator const&)>(&CandidateVersion), Cache, std::placeholders::_1);
 }
+
 std::string CurrentToCandidateVersion(pkgCacheFile * const Cache, pkgCache::PkgIterator const &Pkg)
 {
    std::string const CurVer = (*Cache)[Pkg].CurVersion;
@@ -773,8 +786,10 @@ std::string CurrentToCandidateVersion(pkgCacheFile * const Cache, pkgCache::PkgI
 
    if ((std::strstr((*Cache)[Pkg].CurVersion, "maruska") != NULL)
        && (std::strstr((*Cache)[Pkg].CandVersion, "maruska") == NULL))
-      return std::string(blocked_color) + CurVer + " => " + CandVer + color_reset;
-   else
+     {
+       found = true;
+       return std::string(blocked_color) + CurVer + " => " + CandVer + color_reset;
+     } else
       return  CurVer + " => " + CandVer;
 }
 
