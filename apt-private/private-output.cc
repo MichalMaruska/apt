@@ -568,7 +568,9 @@ void ShowNew(ostream &out,CacheFile &Cache)
 	 [&Cache](pkgCache::PkgIterator const &Pkg) { return Cache[Pkg].NewInstall() && Cache[Pkg].Flags & pkgCache::Flag::Auto;},
 	 &PrettyFullName,
 	 CandidateVersion(&Cache),
-	 "APT::Color::Green");
+	 install_color
+	 // "APT::Color::Green"
+	 );
 }
 									/*}}}*/
 // ShowDel - Show packages to delete					/*{{{*/
@@ -586,7 +588,8 @@ void ShowDel(ostream &out,CacheFile &Cache)
 	    return str;
 	 },
 	 CandidateVersion(&Cache),
-	 "APT::Color::Red");
+	 remove_color // "APT::Color::Red"
+	 );
 }
 									/*}}}*/
 // ShowPhasing - Show packages kept due to phasing			/*{{{*/
@@ -610,7 +613,7 @@ void ShowKept(ostream &out,CacheFile &Cache, APT::PackageVector const &HeldBackP
    ShowList(out, title, HeldBackPackages,
 	 &AlwaysTrue,
 	 &PrettyFullName,
-	 CurrentToCandidateVersion(&Cache));
+	 CurrentToCandidateVersion(&Cache), blocked_color);
 }
 									/*}}}*/
 // ShowUpgraded - Show upgraded packages				/*{{{*/
@@ -625,7 +628,7 @@ void ShowUpgraded(ostream &out,CacheFile &Cache)
 	 },
 	 &PrettyFullName,
 	 CurrentToCandidateVersion(&Cache),
-	 "APT::Color::Green");
+	 install_color /*"APT::Color::Green"*/);
 }
 									/*}}}*/
 // ShowDowngraded - Show downgraded packages				/*{{{*/
@@ -642,7 +645,7 @@ bool ShowDowngraded(ostream &out,CacheFile &Cache)
 	 },
 	 &PrettyFullName,
 	 CurrentToCandidateVersion(&Cache),
-	 "APT::Color::Green");
+	 warn_color /*"APT::Color::Green"*/);
 }
 									/*}}}*/
 // ShowHold - Show held but changed packages				/*{{{*/
@@ -657,7 +660,7 @@ bool ShowHold(ostream &out,CacheFile &Cache)
 		   Cache[Pkg].InstallVer != (pkgCache::Version *)Pkg.CurrentVer();
 	 },
 	 &PrettyFullName,
-	 CurrentToCandidateVersion(&Cache));
+	 CurrentToCandidateVersion(&Cache), warn_color);
 }
 									/*}}}*/
 // ShowEssential - Show an essential package warning			/*{{{*/
@@ -729,7 +732,7 @@ bool ShowEssential(ostream &out,CacheFile &Cache)
    }
    return ShowList(out,_("WARNING: The following essential packages will be removed.\n"
 			 "This should NOT be done unless you know exactly what you are doing!"),
-	 pkglist, &AlwaysTrue, withdue, &EmptyString);
+	 pkglist, &AlwaysTrue, withdue, &EmptyString, remove_color);
 }
 									/*}}}*/
 // Stats - Show some statistics						/*{{{*/
