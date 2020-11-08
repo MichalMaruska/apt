@@ -471,7 +471,7 @@ void ShowNew(ostream &out,CacheFile &Cache)
    ShowList(out,_("The following NEW packages will be installed:"), Universe,
 	 [&Cache](pkgCache::PkgIterator const &Pkg) { return Cache[Pkg].NewInstall(); },
 	 &PrettyFullName,
-	 CandidateVersion(&Cache));
+	 CandidateVersion(&Cache), install_color);
 }
 									/*}}}*/
 // ShowDel - Show packages to delete					/*{{{*/
@@ -487,7 +487,7 @@ void ShowDel(ostream &out,CacheFile &Cache)
 	       str.append("*");
 	    return str;
 	 },
-	 CandidateVersion(&Cache));
+	 CandidateVersion(&Cache), remove_color);
 }
 									/*}}}*/
 // ShowKept - Show kept packages					/*{{{*/
@@ -497,7 +497,7 @@ void ShowKept(ostream &out,CacheFile &Cache, APT::PackageVector const &HeldBackP
    ShowList(out,_("The following packages have been kept back:"), HeldBackPackages,
 	 &AlwaysTrue,
 	 &PrettyFullName,
-	 CurrentToCandidateVersion(&Cache));
+	 CurrentToCandidateVersion(&Cache), blocked_color);
 }
 									/*}}}*/
 // ShowUpgraded - Show upgraded packages				/*{{{*/
@@ -510,7 +510,7 @@ void ShowUpgraded(ostream &out,CacheFile &Cache)
 	    return Cache[Pkg].Upgrade() == true && Cache[Pkg].NewInstall() == false;
 	 },
 	 &PrettyFullName,
-	 CurrentToCandidateVersion(&Cache));
+	 CurrentToCandidateVersion(&Cache), install_color);
 }
 									/*}}}*/
 // ShowDowngraded - Show downgraded packages				/*{{{*/
@@ -525,7 +525,7 @@ bool ShowDowngraded(ostream &out,CacheFile &Cache)
 	    return Cache[Pkg].Downgrade() == true && Cache[Pkg].NewInstall() == false;
 	 },
 	 &PrettyFullName,
-	 CurrentToCandidateVersion(&Cache));
+	 CurrentToCandidateVersion(&Cache), warn_color);
 }
 									/*}}}*/
 // ShowHold - Show held but changed packages				/*{{{*/
@@ -539,7 +539,7 @@ bool ShowHold(ostream &out,CacheFile &Cache)
 		   Cache[Pkg].InstallVer != (pkgCache::Version *)Pkg.CurrentVer();
 	 },
 	 &PrettyFullName,
-	 CurrentToCandidateVersion(&Cache));
+	 CurrentToCandidateVersion(&Cache), warn_color);
 }
 									/*}}}*/
 // ShowEssential - Show an essential package warning			/*{{{*/
@@ -611,7 +611,7 @@ bool ShowEssential(ostream &out,CacheFile &Cache)
    }
    return ShowList(out,_("WARNING: The following essential packages will be removed.\n"
 			 "This should NOT be done unless you know exactly what you are doing!"),
-	 pkglist, &AlwaysTrue, withdue, &EmptyString);
+	 pkglist, &AlwaysTrue, withdue, &EmptyString, remove_color);
 }
 									/*}}}*/
 // Stats - Show some statistics						/*{{{*/
