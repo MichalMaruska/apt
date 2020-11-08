@@ -658,14 +658,39 @@ void ShowUpgraded(ostream &out,CacheFile &Cache)
 {
    SortedPackageUniverse Universe(Cache);
    auto title = _config->FindI("APT::Output-Version") < 30 ? _("The following packages will be upgraded:") : _("Upgrading:");
+   std::string witness = "";
+   bool found = false;
+   const std::string protected_version = "maruska";
+
+   if (_config->FindB("APT::Install::Protect-Maruska", false)) {
+      found = false;
+   }
    ShowList(out, title, Universe,
 	 [&Cache](pkgCache::PkgIterator const &Pkg)
 	 {
 	    return Cache[Pkg].Upgrade() == true && Cache[Pkg].NewInstall() == false;
 	 },
-	 &PrettyFullName,
+
+	 [&Cache, &found, &witness, &protected_version](pkgCache::PkgIterator const &Pkg)
+	 {
+	    std::string str = PrettyFullName(Pkg);
+
+	    if ((std::strstr((*Cache)[Pkg].CurVersion, protected_version.c_str() ) != NULL)
+		&& (std::strstr((*Cache)[Pkg].CandVersion, protected_version.c_str()) == NULL))
+	      {
+		found = true;
+		witness = str;
+	      }
+	    return str;
+	 },
 	 CurrentToCandidateVersion(&Cache),
 	 "APT::Color::Upgraded");
+
+   if (_config->FindB("APT::Install::Protect-Maruska", false)) {
+      if (found) {
+	 exit(1);
+      }
+   }
 }
 									/*}}}*/
 // ShowDowngraded - Show downgraded packages				/*{{{*/
