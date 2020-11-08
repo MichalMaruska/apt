@@ -103,6 +103,8 @@ bool InitOutput(std::basic_streambuf<char> * const out)			/*{{{*/
       _config->CndSet("APT::Color::Magenta", "\x1B[35m");
       _config->CndSet("APT::Color::Cyan", "\x1B[36m");
       _config->CndSet("APT::Color::White", "\x1B[37m");
+
+      _config->CndSet("APT::Color::Version","\x1B[38;5m");
    }
 
    return true;

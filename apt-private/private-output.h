@@ -54,12 +54,14 @@ template<class Container, class PredicateC, class DisplayP, class DisplayV> bool
 
    auto setColor = _config->FindI("APT::Output-Version") >= 30 ? _config->Find(colorName) : "";
    auto resetColor = _config->FindI("APT::Output-Version") >= 30 ? _config->Find("APT::Color::Neutral") : "";
+   auto version_color = _config->FindI("APT::Output-Version") >= 30 ? _config->Find("APT::Color::Version") : "";
 
    for (auto const &Pkg: cont)
    {
       if (Predicate(Pkg) == false)
 	 continue;
 
+      // this is the header. only once (in this for cycle)
       if (printedTitle == false)
       {
 	 out << Title;
@@ -71,7 +73,7 @@ template<class Container, class PredicateC, class DisplayP, class DisplayV> bool
 	 out << std::endl << "   " << setColor << PkgDisplay(Pkg) << resetColor;
 	 std::string const verbose = VerboseDisplay(Pkg);
 	 if (verbose.empty() == false)
-	    out << " (" << verbose << ")";
+	    out << " (" << version_color << verbose << resetColor << ")";
       }
       else
       {
