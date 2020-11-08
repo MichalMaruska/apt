@@ -900,6 +900,8 @@ std::vector<PseudoPkg> GetPseudoPackages(pkgSourceList *const SL, CommandLine &C
    return VolatileCmdL;
 }
 									/*}}}*/
+
+#include "colors.h"
 // DoInstall - Install packages from the command line			/*{{{*/
 // ---------------------------------------------------------------------
 /* Install named packages */
@@ -1041,7 +1043,7 @@ bool DoInstall(CommandLine &CmdL)
    if (_config->FindI("APT::Output-Version") < 30 && Cache->InstCount() != verset[MOD_INSTALL].size())
       ShowList(c1out, _("The following additional packages will be installed:"), Universe,
 	    PkgIsExtraInstalled(&Cache, &verset[MOD_INSTALL]),
-	    &PrettyFullName, CandidateVersion(&Cache), "APT::Color::Green");
+	    &PrettyFullName, CandidateVersion(&Cache), install_color /* "APT::Color::Green" */);
 
    /* Print out a list of suggested and recommended packages */
    if (_config->FindI("APT::Output-Version") < 30)
