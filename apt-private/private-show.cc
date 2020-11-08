@@ -1,5 +1,6 @@
 // Includes								/*{{{*/
 #include <config.h>
+#include "colors.h"
 
 #include <apt-pkg/cachefile.h>
 #include <apt-pkg/cacheset.h>
@@ -563,9 +564,9 @@ bool Policy(CommandLine &CmdL)
       for (V = Pkg.VersionList(); V.end() == false; ++V)
       {
 	 if (Pkg.CurrentVer() == V)
-	    std::cout << " *** " << V.VerStr();
+	    std::cout << " *** " << info_color << V.VerStr() << color_reset;
 	 else
-	    std::cout << "     " << V.VerStr();
+	    std::cout << "     " << info_color << V.VerStr() << color_reset;
 
 	 std::cout << " " << Plcy->GetPriority(V);
 
