@@ -508,6 +508,7 @@ void ShowDel(ostream &out,CacheFile &Cache)
    }
 }
 									/*}}}*/
+
 // ShowKept - Show kept packages					/*{{{*/
 void ShowKept(ostream &out,CacheFile &Cache, APT::PackageVector const &HeldBackPackages)
 {
@@ -517,7 +518,7 @@ void ShowKept(ostream &out,CacheFile &Cache, APT::PackageVector const &HeldBackP
 	 &PrettyFullName,
 	 CurrentToCandidateVersion(&Cache), blocked_color);
 }
-                                                                        /*}}}*/
+									/*}}}*/
 static bool found;
 
 // ShowUpgraded - Show upgraded packages				/*{{{*/
