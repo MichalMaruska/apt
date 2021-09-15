@@ -15,7 +15,7 @@
 
 #define install_color "\x1b[33;01m"
 
-#define remove_color "\x1b[38;5;160m"
+#define remove_color "\x1b[38;5;214m"
 // xy
 // x:  4 bg,  3 fg
 //
