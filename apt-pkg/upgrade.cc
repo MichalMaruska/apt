@@ -45,7 +45,8 @@ static bool pkgDistUpgrade(pkgDepCache &Cache, OpProgress * const Progress)
    if (Progress != NULL)
       Progress->Progress(10);
 
-   /* Auto upgrade all installed packages, this provides the basis 
+   // mmc: repeat with        true!
+   /* Auto upgrade all installed packages, this provides the basis
       for the installation */
    for (pkgCache::PkgIterator I = Cache.PkgBegin(); I.end() == false; ++I)
       if (I->CurrentVer != 0)
@@ -138,6 +139,9 @@ static bool pkgAllUpgradeNoNewPackages(pkgDepCache &Cache, OpProgress * const Pr
    // Upgrade all installed packages
    for (pkgCache::PkgIterator I = Cache.PkgBegin(); I.end() == false; ++I)
    {
+      if (true) // (Debug == true)
+        std::clog << "pkgAllUpgrade considering " << I.FullName(false) << std::endl;
+
       if (Cache[I].Install() == true)
 	 Fix.Protect(I);
 	  
