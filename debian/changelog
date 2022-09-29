@@ -1,3 +1,28 @@
+apt (2.5.3-maruska) unstable; urgency=medium
+
+  * Remove trailing spaces
+  * grammar
+  * Provide colors.h
+  * comments in colors.h
+  * Make the 'removed' font more readable
+  * Extend the <template...> ShowList() to select a color for package names.
+  * Use install_color
+  * Use remove, blocked, install (for upgrade), warn for held, downgraded
+  * Use color when showing upgrade away from "maruska" version
+  * comments
+  * verbose tracing: "pkgAllUpgrade considering"
+  * Exit when the upgrade would remove maruska version.
+  * Abort if any to-be-dropped package is of '*maruska*' version.
+  * tabs
+  * Try hard to Trace when the pinning info is read-in.
+  * my comments
+  * Revert ReadPinDir/ReadPinFile(, prograss) addition -- to keep ABI for aptitude
+  * apt-cache showpkg: add color
+  * policy: add color
+  * drop ninja
+
+ -- Michal Maruska <mmaruska@gmail.com>  Thu, 29 Sep 2022 09:52:47 +0200
+
 apt (2.5.3) unstable; urgency=medium
 
   [ Povilas Kanapickas ]
