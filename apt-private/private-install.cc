@@ -185,6 +185,7 @@ bool InstallPackages(CacheFile &Cache, APT::PackageVector &HeldBackPackages, boo
       ShowKept(c1out,Cache, HeldBackPackages);
    bool const Hold = not ShowHold(c1out,Cache);
    if (_config->FindB("APT::Get::Show-Upgraded",true) == true)
+     // mmc:
       ShowUpgraded(c1out,Cache);
    bool const Downgrade = !ShowDowngraded(c1out,Cache);
 
@@ -834,6 +835,8 @@ std::vector<PseudoPkg> GetPseudoPackages(pkgSourceList *const SL, CommandLine &C
    return VolatileCmdL;
 }
 									/*}}}*/
+
+#include "colors.h"
 // DoInstall - Install packages from the command line			/*{{{*/
 // ---------------------------------------------------------------------
 /* Install named packages */
@@ -858,7 +861,7 @@ bool DoInstall(CommandLine &CmdL)
    auto VolatileCmdL = GetPseudoPackages(Cache.GetSourceList(), CmdL, AddVolatileBinaryFile, "");
 
    // then open the cache
-   if (Cache.OpenForInstall() == false || 
+   if (Cache.OpenForInstall() == false ||
        Cache.CheckDeps(CmdL.FileSize() != 1) == false)
       return false;
 
@@ -878,7 +881,7 @@ bool DoInstall(CommandLine &CmdL)
    if (Cache->InstCount() != verset[MOD_INSTALL].size())
       ShowList(c1out, _("The following additional packages will be installed:"), Universe,
 	    PkgIsExtraInstalled(&Cache, &verset[MOD_INSTALL]),
-	    &PrettyFullName, CandidateVersion(&Cache));
+	    &PrettyFullName, CandidateVersion(&Cache), install_color);
 
    /* Print out a list of suggested and recommended packages */
    {
