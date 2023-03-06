@@ -1,3 +1,28 @@
+apt (2.6.0-maruska) unstable; urgency=medium
+
+  * Remove trailing spaces
+  * grammar
+  * Provide colors.h
+  * comments in colors.h
+  * Make the 'removed' font more readable
+  * Extend the <template...> ShowList() to select a color for package names.
+  * Use install_color
+  * Use remove, blocked, install (for upgrade), warn for held, downgraded
+  * Use color when showing upgrade away from "maruska" version
+  * comments
+  * Exit when the upgrade would remove maruska version.
+  * verbose tracing: "pkgAllUpgrade considering"
+  * Abort if any to-be-dropped package is of '*maruska*' version.
+  * apt-cache showpkg: add color
+  * tabs
+  * Try hard to Trace when the pinning info is read-in.
+  * policy: add color
+  * drop ninja
+  * my comments
+  * Revert ReadPinDir/ReadPinFile(, prograss) addition -- to keep ABI for aptitude
+
+ -- Michal Maruska <mmaruska@gmail.com>  Mon, 06 Mar 2023 20:02:59 +0100
+
 apt (2.6.0) unstable; urgency=medium
 
   * The "unhappy bookworm" release. Too many changes needed to clarify
