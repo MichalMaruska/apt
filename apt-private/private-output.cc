@@ -580,18 +580,35 @@ void ShowDel(ostream &out,CacheFile &Cache)
 {
    SortedPackageUniverse Universe(Cache);
    auto title = _config->FindI("APT::Output-Version") < 30 ? _("The following packages will be REMOVED:") : _("REMOVING:");
+
+   bool found = false;
+   const std::string protected_version = "maruska";
+
    ShowList(out,title, Universe,
 	 [&Cache](pkgCache::PkgIterator const &Pkg) { return Cache[Pkg].Delete(); },
-	 [&Cache](pkgCache::PkgIterator const &Pkg)
+	 // this is a lambda: [captures](params){body}
+	 // action:
+	 [&Cache, &found, &protected_version](pkgCache::PkgIterator const &Pkg)
 	 {
 	    std::string str = PrettyFullName(Pkg);
 	    if (((*Cache)[Pkg].iFlags & pkgDepCache::Purge) == pkgDepCache::Purge)
 	       str.append("*");
+	    if (std::strstr((*Cache)[Pkg].CurVersion, protected_version.c_str()) != NULL) {
+	       found = true;
+	    }
 	    return str;
 	 },
 	 CandidateVersion(&Cache),
 	 remove_color // "APT::Color::Red"
 	 );
+
+   if (_config->FindB("APT::Install::Protect-Maruska", false)) {
+      if (found) {
+	 out << "Sorry maruska would be removed!" << endl;
+	 // todo: write an explanation!
+	 exit(1);
+      }
+   }
 }
 									/*}}}*/
 // ShowPhasing - Show packages kept due to phasing			/*{{{*/
