@@ -14,6 +14,7 @@
 // Include Files							/*{{{*/
 #include <config.h>
 
+#warning ahoj
 #include <apt-pkg/acquire-item.h>
 #include <apt-pkg/acquire-worker.h>
 #include <apt-pkg/acquire.h>
