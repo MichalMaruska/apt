@@ -18,8 +18,7 @@ else
 endif
 
 %:
-	dh $@
-#--buildsystem=cmake+ninja
+	dh $@ --buildsystem=cmake+ninja
 
 override_dh_clean:
 	cp COPYING debian/copyright
@@ -59,4 +58,4 @@ endif
 endif
 
 override_dh_auto_configure-arch override_dh_auto_configure-indep:
-	dh_auto_configure -- -DCMAKE_BUILD_RPATH_USE_ORIGIN=ON $(configure_doc_flags) $(configure_test_flags)
+	dh_auto_configure -- -DCMAKE_BUILD_RPATH_USE_ORIGIN=ON -DCMAKE_COLOR_DIAGNOSTICS=ON $(configure_doc_flags) $(configure_test_flags)
