@@ -1,3 +1,36 @@
+apt (2.7.3-maruska) unstable; urgency=medium
+
+  [ Julian Andres Klode ]
+  * CI: Do not require UID 1000 for our test user
+
+  [ Michal Maruska ]
+  * Remove trailing spaces
+  * grammar
+  * Provide colors.h
+  * comments in colors.h
+  * Make the 'removed' font more readable
+  * Extend the <template...> ShowList() to select a color for package names.
+  * Use install_color
+  * Use remove, blocked, install (for upgrade), warn for held, downgraded
+  * Use color when showing upgrade away from "maruska" version
+  * drop ninja
+  * comments
+  * color + ninja
+  * Exit when the upgrade would remove maruska version.
+  * verbose tracing: "pkgAllUpgrade considering"
+  * Effort to get the colored gcc output:
+  * Abort if any to-be-dropped package is of '*maruska*' version.
+  * apt-cache showpkg: add color
+  * trigger a warning
+  * my comments
+  * Try hard to Trace when the pinning info is read-in.
+  * policy: add color
+  * drop
+  * witness
+  * Revert ReadPinDir/ReadPinFile(, prograss) addition -- to keep ABI for aptitude
+
+ --  <mmaruska@gmail.com>  Fri, 04 Aug 2023 14:20:15 +0200
+
 apt (2.7.3) unstable; urgency=medium
 
   [ Tianon Gravi ]
