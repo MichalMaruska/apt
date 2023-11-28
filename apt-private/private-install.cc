@@ -211,13 +211,15 @@ bool InstallPackages(CacheFile &Cache, APT::PackageVector &HeldBackPackages, boo
    }
 
    // Show all the various warning indicators
-   ShowDel(c1out,Cache);
    ShowNew(c1out,Cache);
+
    if (ShwKept == true)
       ShowKept(c1out,Cache, HeldBackPackages);
    bool const Hold = not ShowHold(c1out,Cache);
    if (_config->FindB("APT::Get::Show-Upgraded",true) == true)
       ShowUpgraded(c1out,Cache);
+
+   ShowDel(c1out,Cache);
    bool const Downgrade = !ShowDowngraded(c1out,Cache);
 
    bool Essential = false;
