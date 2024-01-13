@@ -1,3 +1,37 @@
+apt (2.7.9-maruska) unstable; urgency=medium
+
+  [ Julian Andres Klode ]
+  * pkgcachegen: Use placement new to construct header
+
+  [ Michal Maruska ]
+  * Remove trailing spaces
+  * grammar
+  * Provide colors.h
+  * comments in colors.h
+  * Make the 'removed' font more readable
+  * Extend the <template...> ShowList() to select a color for package names.
+  * Use install_color
+  * Use remove, blocked, install (for upgrade), warn for held, downgraded
+  * Use color when showing upgrade away from "maruska" version
+  * comments
+  * Exit when the upgrade would remove maruska version.
+  * verbose tracing: "pkgAllUpgrade considering"
+  * Abort if any to-be-dropped package is of '*maruska*' version.
+  * Try hard to Trace when the pinning info is read-in.
+  * Report to-be-removed packages below the added ones, to increase visibility
+  * my comments
+  * Revert ReadPinDir/ReadPinFile(, prograss) addition -- to keep ABI for aptitude
+  * drop ninja
+  * color + ninja
+  * Effort to get the colored gcc output:
+  * apt-cache showpkg: add color
+  * trigger a warning
+  * policy: add color
+  * drop
+  * witness
+
+ -- Michal Maruska <mmaruska@gmail.com>  Sat, 13 Jan 2024 11:44:12 +0100
+
 apt (2.7.9) unstable; urgency=medium
 
   [ David Kalnischkies ]
