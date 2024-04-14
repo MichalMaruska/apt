@@ -27,6 +27,8 @@
 #include <sstream>
 
 #include <apti18n.h>
+
+#include "colors.h"
 									/*}}}*/
 
 using namespace std;
@@ -47,7 +49,7 @@ static void SigWinch(int)
    // Riped from GNU ls
 #ifdef TIOCGWINSZ
    struct winsize ws;
-  
+
    if (ioctl(1, TIOCGWINSZ, &ws) != -1 && ws.ws_col >= 5)
       ScreenWidth = ws.ws_col - 1;
 #endif
@@ -95,7 +97,7 @@ bool InitOutput(std::basic_streambuf<char> * const out)			/*{{{*/
       // Colors
       _config->CndSet("APT::Color::Highlight", "\x1B[32m");
       _config->CndSet("APT::Color::Neutral", "\x1B[0m");
-      
+
       _config->CndSet("APT::Color::Red", "\x1B[31m");
       _config->CndSet("APT::Color::Green", "\x1B[32m");
       _config->CndSet("APT::Color::Yellow", "\x1B[33m");
@@ -568,7 +570,9 @@ void ShowNew(ostream &out,CacheFile &Cache)
 	 [&Cache](pkgCache::PkgIterator const &Pkg) { return Cache[Pkg].NewInstall() && Cache[Pkg].Flags & pkgCache::Flag::Auto;},
 	 &PrettyFullName,
 	 CandidateVersion(&Cache),
-	 "APT::Color::Green");
+	 install_color
+	 // "APT::Color::Green"
+	 );
 }
 									/*}}}*/
 // ShowDel - Show packages to delete					/*{{{*/
@@ -576,17 +580,37 @@ void ShowDel(ostream &out,CacheFile &Cache)
 {
    SortedPackageUniverse Universe(Cache);
    auto title = _config->FindI("APT::Output-Version") < 30 ? _("The following packages will be REMOVED:") : _("REMOVING:");
+
+   bool found = false;
+   const std::string protected_version = "maruska";
+   std::string witness;
+
    ShowList(out,title, Universe,
 	 [&Cache](pkgCache::PkgIterator const &Pkg) { return Cache[Pkg].Delete(); },
-	 [&Cache](pkgCache::PkgIterator const &Pkg)
+	 // this is a lambda: [captures](params){body}
+	 // action:
+	 [&Cache, &found, &witness, &protected_version](pkgCache::PkgIterator const &Pkg)
 	 {
 	    std::string str = PrettyFullName(Pkg);
 	    if (((*Cache)[Pkg].iFlags & pkgDepCache::Purge) == pkgDepCache::Purge)
 	       str.append("*");
+	    if (std::strstr((*Cache)[Pkg].CurVersion, protected_version.c_str()) != NULL) {
+	       found = true;
+	       witness = PrettyFullName(Pkg);
+	    }
 	    return str;
 	 },
 	 CandidateVersion(&Cache),
-	 "APT::Color::Red");
+	 remove_color // "APT::Color::Red"
+	 );
+
+   if (_config->FindB("APT::Install::Protect-Maruska", false)) {
+      if (found) {
+	 out << "Sorry maruska would be removed !" << witness << endl;
+	 // todo: write an explanation!
+	 exit(1);
+      }
+   }
 }
 									/*}}}*/
 // ShowPhasing - Show packages kept due to phasing			/*{{{*/
@@ -610,14 +634,19 @@ void ShowKept(ostream &out,CacheFile &Cache, APT::PackageVector const &HeldBackP
    ShowList(out, title, HeldBackPackages,
 	 &AlwaysTrue,
 	 &PrettyFullName,
-	 CurrentToCandidateVersion(&Cache));
+	 CurrentToCandidateVersion(&Cache), blocked_color);
 }
 									/*}}}*/
+static bool found;
+
 // ShowUpgraded - Show upgraded packages				/*{{{*/
 void ShowUpgraded(ostream &out,CacheFile &Cache)
 {
    SortedPackageUniverse Universe(Cache);
    auto title = _config->FindI("APT::Output-Version") < 30 ? _("The following packages will be upgraded:") : _("Upgrading:");
+   if (_config->FindB("APT::Install::Protect-Maruska", false)) {
+      found = false;
+   }
    ShowList(out, title, Universe,
 	 [&Cache](pkgCache::PkgIterator const &Pkg)
 	 {
@@ -625,7 +654,13 @@ void ShowUpgraded(ostream &out,CacheFile &Cache)
 	 },
 	 &PrettyFullName,
 	 CurrentToCandidateVersion(&Cache),
-	 "APT::Color::Green");
+	 install_color /*"APT::Color::Green"*/);
+
+   if (_config->FindB("APT::Install::Protect-Maruska", false)) {
+      if (found) {
+	 exit(1);
+      }
+   }
 }
 									/*}}}*/
 // ShowDowngraded - Show downgraded packages				/*{{{*/
@@ -642,7 +677,7 @@ bool ShowDowngraded(ostream &out,CacheFile &Cache)
 	 },
 	 &PrettyFullName,
 	 CurrentToCandidateVersion(&Cache),
-	 "APT::Color::Green");
+	 warn_color /*"APT::Color::Green"*/);
 }
 									/*}}}*/
 // ShowHold - Show held but changed packages				/*{{{*/
@@ -657,7 +692,7 @@ bool ShowHold(ostream &out,CacheFile &Cache)
 		   Cache[Pkg].InstallVer != (pkgCache::Version *)Pkg.CurrentVer();
 	 },
 	 &PrettyFullName,
-	 CurrentToCandidateVersion(&Cache));
+	 CurrentToCandidateVersion(&Cache), warn_color);
 }
 									/*}}}*/
 // ShowEssential - Show an essential package warning			/*{{{*/
@@ -729,7 +764,7 @@ bool ShowEssential(ostream &out,CacheFile &Cache)
    }
    return ShowList(out,_("WARNING: The following essential packages will be removed.\n"
 			 "This should NOT be done unless you know exactly what you are doing!"),
-	 pkglist, &AlwaysTrue, withdue, &EmptyString);
+	 pkglist, &AlwaysTrue, withdue, &EmptyString, remove_color);
 }
 									/*}}}*/
 // Stats - Show some statistics						/*{{{*/
@@ -754,15 +789,15 @@ void Stats(ostream &out, pkgDepCache &Dep, APT::PackageVector const &HeldBackPac
 	    if (Dep[I].Downgrade() == true)
 	       Downgrade++;
       }
-      
+
       if (Dep[I].Delete() == false && (Dep[I].iFlags & pkgDepCache::ReInstall) == pkgDepCache::ReInstall)
 	 ReInstall++;
-   }   
+   }
    if (outVer >= 30)
       ioprintf(out, _("Summary:\n"));
    ioprintf(out,outVer < 30 ? _("%lu upgraded, %lu newly installed, ") : _("  Upgrading: %lu, Installing: %lu, "),
 	    Upgrade,Install);
-   
+
    if (ReInstall != 0)
       ioprintf(out,outVer < 30 ? _("%lu reinstalled, ") : _("Reinstalling: %lu, "),ReInstall);
    if (Downgrade != 0)
@@ -879,6 +914,7 @@ std::function<std::string(pkgCache::PkgIterator const &)> CandidateVersion(pkgCa
 {
    return std::bind(static_cast<std::string(*)(pkgCacheFile * const, pkgCache::PkgIterator const&)>(&CandidateVersion), Cache, std::placeholders::_1);
 }
+
 std::string CurrentToCandidateVersion(pkgCacheFile * const Cache, pkgCache::PkgIterator const &Pkg)
 {
    std::string const CurVer = (*Cache)[Pkg].CurVersion;
@@ -889,8 +925,18 @@ std::string CurrentToCandidateVersion(pkgCacheFile * const Cache, pkgCache::PkgI
       if (not CandVerIter.end())
 	 CandVer = CandVerIter.VerStr();
    }
-   return  CurVer + " => " + CandVer;
+
+   auto line = CurVer + " => " + CandVer;
+
+   if ((std::strstr((*Cache)[Pkg].CurVersion, "maruska") != NULL)
+       && (std::strstr((*Cache)[Pkg].CandVersion, "maruska") == NULL))
+   {
+      found = true;
+      return std::string(blocked_color) + line + color_reset;
+   } else
+      return line;
 }
+
 std::function<std::string(pkgCache::PkgIterator const &)> CurrentToCandidateVersion(pkgCacheFile * const Cache)
 {
    return std::bind(static_cast<std::string(*)(pkgCacheFile * const, pkgCache::PkgIterator const&)>(&CurrentToCandidateVersion), Cache, std::placeholders::_1);
