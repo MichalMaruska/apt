@@ -76,7 +76,10 @@ static bool DumpPackage(CommandLine &CmdL)
 
    for (APT::PackageList::const_iterator Pkg = pkgset.begin(); Pkg != pkgset.end(); ++Pkg)
    {
-      cout << "Package: " << Pkg.FullName(true) << endl;
+      auto infoColor = _config->Find("APT::Color::Yellow");
+      auto resetColor = _config->Find("APT::Color::Neutral");
+
+      cout << "Package: " << infoColor << Pkg.FullName(true) << resetColor << endl;
       cout << "Versions: " << endl;
       for (pkgCache::VerIterator Cur = Pkg.VersionList(); Cur.end() != true; ++Cur)
       {
