@@ -1,3 +1,33 @@
+apt (2.9.0-maruska) unstable; urgency=medium
+
+  * Remove trailing spaces
+  * grammar
+  * Provide colors.h
+  * comments in colors.h
+  * Make the 'removed' font more readable
+  * Extend the <template...> ShowList() to use color for package names
+  * Use install_color
+  * Use remove, blocked, install (for upgrade), warn for held, downgraded
+  * Use color when showing upgrade away from "maruska" version
+  * comments
+  * verbose tracing: "pkgAllUpgrade considering"
+  * Report to-be-removed packages below the added ones, to increase visibility
+  * Try hard to Trace when the pinning info is read-in.
+  * Revert ReadPinDir/ReadPinFile(, prograss) addition -- to keep ABI for aptitude
+  * Exit when the upgrade would remove maruska version.
+  * Abort if any to-be-dropped package is of '*maruska*' version.
+  * my comments
+  * witness
+  * drop ninja
+  * color + ninja
+  * Effort to get the colored gcc output:
+  * apt-cache showpkg: add color
+  * trigger a warning
+  * policy: add color
+  * drop
+
+ -- Michal Maruska <mmaruska@gmail.com>  Sun, 14 Apr 2024 11:42:46 +0200
+
 apt (2.9.0) unstable; urgency=medium
 
   * Welcome to the APT 3.0 development series. It has a new UI for
