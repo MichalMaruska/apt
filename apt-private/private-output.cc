@@ -116,6 +116,12 @@ bool InitOutput(std::basic_streambuf<char> * const out)			/*{{{*/
       _config->CndSet("APT::Color::Show::Package", "\x1B[32m");
 
       _config->CndSet("APT::Color::Version","\x1B[38;5m");
+
+      _config->CndSet("APT::Color::Kept", "\x1B[47;31m");
+      _config->CndSet("APT::Color::Held", "\x1B[47;31m");
+      _config->CndSet("APT::Color::Upgraded", "\x1B[33m");
+      _config->CndSet("APT::Color::Downgraded", "\x1B[32;41m");
+      _config->CndSet("APT::Color::RemoveEssential", "\x1B[32;41m");
       // install ... yellow
       // remove 38
       // blocked 47
@@ -629,7 +635,8 @@ void ShowKept(ostream &out,CacheFile &Cache, APT::PackageVector const &HeldBackP
    ShowList(out, title, HeldBackPackages,
 	 &AlwaysTrue,
 	 &PrettyFullName,
-	 CurrentToCandidateVersion(&Cache));
+	 CurrentToCandidateVersion(&Cache),
+	 "APT::Color::Kept");
 }
 									/*}}}*/
 // ShowUpgraded - Show upgraded packages				/*{{{*/
@@ -676,7 +683,8 @@ bool ShowHold(ostream &out,CacheFile &Cache)
 		   Cache[Pkg].InstallVer != (pkgCache::Version *)Pkg.CurrentVer();
 	 },
 	 &PrettyFullName,
-	 CurrentToCandidateVersion(&Cache));
+	 CurrentToCandidateVersion(&Cache),
+	 "APT::Color::Held");
 }
 									/*}}}*/
 // ShowEssential - Show an essential package warning			/*{{{*/
@@ -748,7 +756,7 @@ bool ShowEssential(ostream &out,CacheFile &Cache)
    }
    return ShowList(out,_("WARNING: The following essential packages will be removed.\n"
 			 "This should NOT be done unless you know exactly what you are doing!"),
-	 pkglist, &AlwaysTrue, withdue, &EmptyString, "action::remove");
+	 pkglist, &AlwaysTrue, withdue, &EmptyString, "action::remove"); // Essential
 }
 									/*}}}*/
 // Stats - Show some statistics						/*{{{*/
