@@ -105,6 +105,12 @@ bool InitOutput(std::basic_streambuf<char> * const out)			/*{{{*/
       _config->CndSet("APT::Color::White", "\x1B[37m");
 
       _config->CndSet("APT::Color::Version","\x1B[38;5m");
+
+      _config->CndSet("APT::Color::Kept", "\x1B[47;31m");
+      _config->CndSet("APT::Color::Held", "\x1B[47;31m");
+      _config->CndSet("APT::Color::Upgraded", "\x1B[33m");
+      _config->CndSet("APT::Color::Downgraded", "\x1B[32;41m");
+      _config->CndSet("APT::Color::RemoveEssential", "\x1B[32;41m");
       // install ... yellow
       // remove 38
       // blocked 47
@@ -576,7 +582,8 @@ void ShowNew(ostream &out,CacheFile &Cache)
 	 [&Cache](pkgCache::PkgIterator const &Pkg) { return Cache[Pkg].NewInstall() && Cache[Pkg].Flags & pkgCache::Flag::Auto;},
 	 &PrettyFullName,
 	 CandidateVersion(&Cache),
-	 "APT::Color::Green");
+	 "APT::Color::Green" // install deps
+	 );
 }
 									/*}}}*/
 // ShowDel - Show packages to delete					/*{{{*/
@@ -594,7 +601,8 @@ void ShowDel(ostream &out,CacheFile &Cache)
 	    return str;
 	 },
 	 CandidateVersion(&Cache),
-	 "APT::Color::Red");
+	 "APT::Color::Red" // remove_color
+	 );
 }
 									/*}}}*/
 // ShowPhasing - Show packages kept due to phasing			/*{{{*/
@@ -618,7 +626,8 @@ void ShowKept(ostream &out,CacheFile &Cache, APT::PackageVector const &HeldBackP
    ShowList(out, title, HeldBackPackages,
 	 &AlwaysTrue,
 	 &PrettyFullName,
-	 CurrentToCandidateVersion(&Cache));
+	 CurrentToCandidateVersion(&Cache),
+	 "APT::Color::Kept");
 }
 									/*}}}*/
 // ShowUpgraded - Show upgraded packages				/*{{{*/
@@ -633,7 +642,7 @@ void ShowUpgraded(ostream &out,CacheFile &Cache)
 	 },
 	 &PrettyFullName,
 	 CurrentToCandidateVersion(&Cache),
-	 "APT::Color::Green");
+	 "APT::Color::Upgraded");
 }
 									/*}}}*/
 // ShowDowngraded - Show downgraded packages				/*{{{*/
@@ -650,7 +659,7 @@ bool ShowDowngraded(ostream &out,CacheFile &Cache)
 	 },
 	 &PrettyFullName,
 	 CurrentToCandidateVersion(&Cache),
-	 "APT::Color::Yellow");
+	 "APT::Color::Downgraded");
 }
 									/*}}}*/
 // ShowHold - Show held but changed packages				/*{{{*/
@@ -665,7 +674,8 @@ bool ShowHold(ostream &out,CacheFile &Cache)
 		   Cache[Pkg].InstallVer != (pkgCache::Version *)Pkg.CurrentVer();
 	 },
 	 &PrettyFullName,
-	 CurrentToCandidateVersion(&Cache));
+	 CurrentToCandidateVersion(&Cache),
+	 "APT::Color::Held");
 }
 									/*}}}*/
 // ShowEssential - Show an essential package warning			/*{{{*/
@@ -737,7 +747,8 @@ bool ShowEssential(ostream &out,CacheFile &Cache)
    }
    return ShowList(out,_("WARNING: The following essential packages will be removed.\n"
 			 "This should NOT be done unless you know exactly what you are doing!"),
-	 pkglist, &AlwaysTrue, withdue, &EmptyString);
+	 pkglist, &AlwaysTrue, withdue, &EmptyString,
+		   "APT::Color::RemoveEssential");
 }
 									/*}}}*/
 // Stats - Show some statistics						/*{{{*/
