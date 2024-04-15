@@ -105,6 +105,12 @@ bool InitOutput(std::basic_streambuf<char> * const out)			/*{{{*/
       _config->CndSet("APT::Color::White", "\x1B[37m");
 
       _config->CndSet("APT::Color::Version","\x1B[38;5m");
+      // install ... yellow
+      // remove 38
+      // blocked 47
+      // version
+      // warn
+      // info
    }
 
    return true;
