@@ -922,8 +922,21 @@ std::string CurrentToCandidateVersion(pkgCacheFile * const Cache, pkgCache::PkgI
       if (not CandVerIter.end())
 	 CandVer = CandVerIter.VerStr();
    }
-   return  CurVer + " => " + CandVer;
+
+   auto line = CurVer + " => " + CandVer;
+
+   // useless penalty for now
+   std::string const keyword = "maruska";
+   if ((std::strstr((*Cache)[Pkg].CurVersion, keyword.c_str() ) != NULL)
+       && (std::strstr((*Cache)[Pkg].CandVersion, keyword.c_str()) == NULL))
+   {
+      auto resetColor = _config->Find("APT::Color::Neutral");
+      auto blockedColor = _config->Find("APT::Color::Held");
+      return std::string(blockedColor) + line + resetColor;
+   } else
+      return line;
 }
+
 std::function<std::string(pkgCache::PkgIterator const &)> CurrentToCandidateVersion(pkgCacheFile * const Cache)
 {
    return std::bind(static_cast<std::string(*)(pkgCacheFile * const, pkgCache::PkgIterator const&)>(&CurrentToCandidateVersion), Cache, std::placeholders::_1);
