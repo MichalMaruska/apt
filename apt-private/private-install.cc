@@ -225,8 +225,6 @@ bool InstallPackages(CacheFile &Cache, APT::PackageVector &HeldBackPackages, boo
    }
 
    // Show all the various warning indicators
-   if (_config->FindI("APT::Output-Version") < 30)
-      ShowDel(c1out,Cache);
    ShowNew(c1out,Cache);
    if (_config->FindI("APT::Output-Version") >= 30)
       ShowWeakDependencies(Cache);
@@ -241,7 +239,10 @@ bool InstallPackages(CacheFile &Cache, APT::PackageVector &HeldBackPackages, boo
    }
    bool const Hold = not ShowHold(c1out,Cache);
    if (_config->FindI("APT::Output-Version") < 30 && _config->FindB("APT::Get::Show-Upgraded",true) == true)
+     // mmc:
       ShowUpgraded(c1out,Cache);
+   if (_config->FindI("APT::Output-Version") < 30)
+      ShowDel(c1out,Cache);
    bool const Downgrade = !ShowDowngraded(c1out,Cache);
 
    // Show removed packages last
@@ -1084,7 +1085,7 @@ bool DoInstall(CommandLine &CmdL)
    auto VolatileCmdL = GetPseudoPackages(Cache.GetSourceList(), CmdL, AddVolatileBinaryFile, "");
 
    // then open the cache
-   if (Cache.OpenForInstall() == false || 
+   if (Cache.OpenForInstall() == false ||
        Cache.CheckDeps(CmdL.FileSize() != 1) == false)
       return false;
 
