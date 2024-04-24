@@ -564,12 +564,15 @@ bool Policy(CommandLine &CmdL)
 
       // Show the priority tables
       std::cout << _("  Version table:") << std::endl;
+
+      auto resetColor = _config->Find("APT::Color::Neutral");
+      auto infoColor = _config->Find("APT::Color::Green");
       for (V = Pkg.VersionList(); V.end() == false; ++V)
       {
 	 if (Pkg.CurrentVer() == V)
-	    std::cout << " *** " << V.VerStr();
+	    std::cout << " *** " << infoColor << V.VerStr() << resetColor;
 	 else
-	    std::cout << "     " << V.VerStr();
+	    std::cout << "     " << infoColor << V.VerStr() << resetColor;
 
 	 std::cout << " " << Plcy->GetPriority(V);
 
