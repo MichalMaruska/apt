@@ -1,3 +1,37 @@
+apt (2.9.3-maruska) unstable; urgency=medium
+
+  [ David Kalnischkies ]
+  * Fix accidental silencing of output differences in tests
+  * Do not mark new if we have already installed providers
+  * Do not save new if we have already installed providers (Closes: #839546)
+  * Deal better with spurious spaces in arch restrictions (Closes: #1071219)
+
+  [ Michal Maruska ]
+  * Remove trailing spaces
+  * fix spelling in comments
+  * Extend the <template...> ShowList() to use color for package names
+  * comment on the configuration dictionary -- colors
+  * Use green for installed color ... 33/01 ?, Kept, held, downgraded
+  * Report to-be-removed packages below the added ones, to increase visibility
+  * apt-policy: use Green color for the version strings
+  * apt-cache: highlight package name with Yellow
+  * comments
+  * verbose tracing: "pkgAllUpgrade considering"
+  * Try hard to Trace when the pinning info is read-in.
+  * Use color when showing upgrade away from "maruska" version
+  * Revert ReadPinDir/ReadPinFile(, prograss) addition -- to keep ABI for aptitude
+  * drop ninja
+  * color + ninja
+  * add option: protect-maruska  APT::Install::Protect-Maruska
+  * Effort to get the colored gcc output:
+  * Abort if any to-be-dropped package is of '*maruska*' version.
+  * trigger a warning
+  * Upgrade: exit when the upgrade would remove maruska version.
+  * drop
+  * my comments
+
+ -- Michal Maruska <mmaruska@gmail.com>  Mon, 20 May 2024 17:30:50 +0200
+
 apt (2.9.3) unstable; urgency=medium
 
   [ Julian Andres Klode ]
