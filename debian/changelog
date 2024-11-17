@@ -1,3 +1,47 @@
+apt (2.9.11-maruska) unstable; urgency=medium
+
+  [ наб ]
+  * ftparchive/: prepare for APT::StringView -> std::string_view
+  * apt-pkg/tagfile.h: prepare for APT::StringView -> std::string_view
+  * Move StringViewCompareFast to strutil.h
+  * apt-pkg/contrib/hashes.cc, apt-pkg/contrib/hashes.h: APT::StringView -> std::string_view in private interface. Take std::string_view instead of std::string const& for HashString::HashString (not reused) [#if APT_PKG_ABI > 600]
+  * pkgTagSection::Tag constructors: std::string const& -> std::string_view (always copied) [#if APT_PKG_ABI > 600]
+  * if APT_PKG_ABI > 600: using APT::StringView = std::string_view;
+  * std::string_view const & -> std::string_view
+  * DEFER
+  * (+=)+= -> append().append()
+  * DEFER() more
+  * fdopen() failing does not close the fd
+
+  [ Julian Andres Klode ]
+  * string_view: Include missing headers
+
+  [ Michal Maruska ]
+  * Remove trailing spaces
+  * fix spelling in comments
+  * Extend the <template...> ShowList() to use color for package names
+  * comment on the configuration dictionary -- colors
+  * Use green for installed color ... 33/01 ?, Kept, held, downgraded
+  * Report to-be-removed packages below the added ones, to increase visibility
+  * apt-policy: use Green color for the version strings
+  * apt-cache: highlight package name with Yellow
+  * comments
+  * verbose tracing: "pkgAllUpgrade considering"
+  * Use color when showing upgrade away from "maruska" version
+  * drop ninja
+  * color + ninja
+  * add option: protect-maruska  APT::Install::Protect-Maruska
+  * Effort to get the colored gcc output:
+  * Abort if any to-be-dropped package is of '*maruska*' version.
+  * trigger a warning
+  * Upgrade: exit when the upgrade would remove maruska version.
+  * Try hard to Trace when the pinning info is read-in.
+  * drop
+  * my comments
+  * Revert ReadPinDir/ReadPinFile(, prograss) addition -- to keep ABI for aptitude
+
+ -- Michal Maruska <mmaruska@gmail.com>  Sun, 17 Nov 2024 21:54:06 +0100
+
 apt (2.9.11) unstable; urgency=medium
 
   [ Julian Andres Klode ]
