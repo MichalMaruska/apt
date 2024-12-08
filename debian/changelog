@@ -1,3 +1,30 @@
+apt (2.9.17-maruska) unstable; urgency=medium
+
+  * Remove trailing spaces
+  * fix spelling in comments
+  * Extend the <template...> ShowList() to use color for package names
+  * comment on the configuration dictionary -- colors
+  * Use green for installed color ... 33/01 ?, Kept, held, downgraded
+  * Report to-be-removed packages below the added ones, to increase visibility
+  * apt-policy: use Green color for the version strings
+  * apt-cache: highlight package name with Yellow
+  * comments
+  * verbose tracing: "pkgAllUpgrade considering"
+  * drop ninja
+  * Use color when showing upgrade away from "maruska" version
+  * color + ninja
+  * add option: protect-maruska  APT::Install::Protect-Maruska
+  * Effort to get the colored gcc output:
+  * Abort if any to-be-dropped package is of '*maruska*' version.
+  * trigger a warning
+  * Upgrade: exit when the upgrade would remove maruska version.
+  * Try hard to Trace when the pinning info is read-in.
+  * drop
+  * my comments
+  * Revert ReadPinDir/ReadPinFile(, prograss) addition -- to keep ABI for aptitude
+
+ -- Michal Maruska <mmaruska@gmail.com>  Sun, 08 Dec 2024 10:11:00 +0100
+
 apt (2.9.17) unstable; urgency=medium
 
   * solver3:
