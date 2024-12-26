@@ -431,7 +431,7 @@ bool ReadPinFile(pkgPolicy &Plcy,string File)
    {
       // can happen when there are only comments in a record
       if (Tags.Count() == 0)
-         continue;
+	 continue;
 
       auto Name = Tags.Find(pkgTagSection::Key::Package);
       if (Name.empty())
